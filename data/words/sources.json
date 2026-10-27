@@ -1,0 +1,38 @@
+{
+  "checked_at": "2026-10-27",
+  "source": "OpenCorpora",
+  "homepage": "https://opencorpora.org/",
+  "downloads": "https://opencorpora.org/?page=downloads",
+  "license": "CC-BY-SA-3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+  "original_export": "https://opencorpora.org/files/export/dict/dict.opcorpora.xml.bz2",
+  "original_export_status": "HTTP 403/522 on 2026-10-27; not downloaded",
+  "distribution": "pymorphy3-dicts-ru",
+  "distribution_version": "2.4.417150.4580142",
+  "distribution_page": "https://pypi.org/project/pymorphy3-dicts-ru/2.4.417150.4580142/",
+  "distribution_published_at": "2022-01-08",
+  "source_version": "0.92",
+  "source_revision": "417150",
+  "compiled_at": "2022-01-08T22:09:24.565962",
+  "scope": "Research snapshot, not the current XML export or a release-ready dictionary",
+  "changes": [
+    "Extract existing dictionary parses only; no predicted words",
+    "Keep NOUN, sing, nomn, matching normal form, Russian letters only, lengths 4/5/6",
+    "Exclude named entities, abbreviations, plural-only words, errors and marked nonstandard words",
+    "Normalize case and yo/e; merge homonyms and spelling collisions",
+    "Disable unreviewed candidates as both answers and guesses",
+    "Apply explicit reviews and manual familiarity/difficulty labels"
+  ],
+  "assets": [
+    {
+      "path": "data/sources/pymorphy3_dicts_ru-2.4.417150.4580142-py2.py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/b0/67/469e9e52d046863f5959928794d3067d455a77f580bf4a662630a43eb426/pymorphy3_dicts_ru-2.4.417150.4580142-py2.py3-none-any.whl",
+      "sha256": "718bac64c73c10c16073a199402657283d9b64c04188b694f6d3e9b0d85440f4"
+    },
+    {
+      "path": "data/licenses/CC-BY-SA-3.0.txt",
+      "url": "https://raw.githubusercontent.com/spdx/license-list-data/31ba1a50e5397e00a304dbadc76531740e89ee48/text/CC-BY-SA-3.0.txt",
+      "sha256": "3f941b3b89cf7b8370ceb83cc76d2120d471b58735d8ca60238a751a48d7f72f"
+    }
+  ]
+}

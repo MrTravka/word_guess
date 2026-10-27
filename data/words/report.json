@@ -1,0 +1,138 @@
+{
+  "status": "research_not_release_dictionary",
+  "source": "OpenCorpora:0.92:417150",
+  "dictionary_metadata": {
+    "language_code": "ru",
+    "format_version": "2.4",
+    "pymorphy2_version": "0.0.1",
+    "compiled_at": "2022-01-08T22:09:24.565962",
+    "source": "opencorpora.org",
+    "source_version": "0.92",
+    "source_revision": "417150",
+    "source_lexemes_count": 391778,
+    "source_links_count": 258607,
+    "gramtab_length": 5532,
+    "gramtab_formats": {
+      "opencorpora-ext": "gramtab-opencorpora-ext.json",
+      "opencorpora-int": "gramtab-opencorpora-int.json"
+    },
+    "paradigms_length": 3456,
+    "suffixes_length": 16311,
+    "words_dawg_length": 5140211,
+    "compile_options": {
+      "min_ending_freq": 2,
+      "min_paradigm_popularity": 3,
+      "max_suffix_length": 5,
+      "paradigm_prefixes": [
+        "",
+        "по",
+        "наи"
+      ]
+    },
+    "prediction_suffixes_dawg_lengths": [
+      375373,
+      1882,
+      21
+    ],
+    "P(t|w)": true,
+    "P(t|w)_unique_words": 45471,
+    "P(t|w)_outcomes": 518367,
+    "P(t|w)_min_word_freq": 1,
+    "corpus_revision": "4580142"
+  },
+  "tool_versions": {
+    "pymorphy3": "2.0.6",
+    "pymorphy3-dicts-ru": "2.4.417150.4580142",
+    "dawg2-python": "0.9.0",
+    "setuptools": "84.2.1"
+  },
+  "exclusion_policy": [
+    "Abbr",
+    "Arch",
+    "Dist",
+    "Erro",
+    "Geox",
+    "Infr",
+    "Init",
+    "Litr",
+    "Name",
+    "Orgn",
+    "Patr",
+    "Pltm",
+    "Slng",
+    "Surn",
+    "Trad",
+    "Vulg"
+  ],
+  "counts": {
+    "accepted_parses": 11906,
+    "all_word_parses": 5140211,
+    "excluded_tags": 11774,
+    "not_lemma": 515,
+    "not_noun": 64305,
+    "not_russian_letters": 14,
+    "not_singular_nominative": 145720,
+    "short_word_parses": 234234
+  },
+  "excluded_tag_occurrences_nonexclusive": {
+    "Abbr": 132,
+    "Arch": 5,
+    "Geox": 2148,
+    "Infr": 55,
+    "Litr": 1,
+    "Name": 6608,
+    "Orgn": 143,
+    "Patr": 38,
+    "Slng": 54,
+    "Surn": 2672
+  },
+  "unique_source_spellings": 11599,
+  "yo_e_collisions": 5,
+  "merged_homonym_parses": 307,
+  "by_length": {
+    "4": {
+      "morphological_candidates": 1874,
+      "reviewed_answers": 1119,
+      "pending_review": 638,
+      "manually_rejected": 117,
+      "target": 1000,
+      "candidate_shortfall": 0,
+      "approved_shortfall": 0,
+      "difficulty": {
+        "1": 724,
+        "2": 395
+      }
+    },
+    "5": {
+      "morphological_candidates": 3967,
+      "reviewed_answers": 1102,
+      "pending_review": 2862,
+      "manually_rejected": 3,
+      "target": 1000,
+      "candidate_shortfall": 0,
+      "approved_shortfall": 0,
+      "difficulty": {
+        "1": 189,
+        "2": 913
+      }
+    },
+    "6": {
+      "morphological_candidates": 5753,
+      "reviewed_answers": 1502,
+      "pending_review": 4250,
+      "manually_rejected": 1,
+      "target": 1000,
+      "candidate_shortfall": 0,
+      "approved_shortfall": 0,
+      "difficulty": {
+        "1": 135,
+        "2": 1367
+      }
+    }
+  },
+  "all_targets_met": true,
+  "sha256": {
+    "candidates.csv": "747dd63365bf5c2b7c4a36c040cf190f4334ccfc7ce87854ebcf6f11261b7d1b",
+    "reviews.json": "82decd9d51ec434a03f82b4fa4047cdbb18e3f7f70ce82f2403ea3e190bbd447"
+  }
+}
