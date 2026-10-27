@@ -48,3 +48,26 @@ SHA256: `8ec667484061fa644c9aabd0d8cd4946f5862e197271d31fae78aa460bc22ee6`.
 пользователя. Музыкальная бесшовность и субъективное качество на слух не проверены.
 
 Ранее предложенный Puzzling не включён в проект по решению владельца.
+
+## Зависимости приложения
+
+Версии и контрольные суммы прямых и транзитивных зависимостей закреплены в
+`frontend/package-lock.json`, `backend/requirements.lock` и
+`backend/requirements-dev.lock`. Установленные пакеты и базовые Docker-образы
+содержат собственные тексты лицензий; они сохраняются при установке и сборке.
+
+Основные компоненты:
+
+| Компонент | Лицензия | Источник |
+| --- | --- | --- |
+| React / React DOM | MIT | https://github.com/facebook/react |
+| Vite | MIT | https://github.com/vitejs/vite |
+| TypeScript | Apache-2.0 | https://github.com/microsoft/TypeScript |
+| FastAPI | MIT | https://github.com/fastapi/fastapi |
+| Starlette | BSD-3-Clause | https://github.com/encode/starlette |
+| Uvicorn | BSD-3-Clause | https://github.com/encode/uvicorn |
+| SQLAlchemy / Alembic | MIT | https://github.com/sqlalchemy |
+| Pydantic / pydantic-settings | MIT | https://github.com/pydantic |
+
+Интерфейс использует системные шрифты. Сторонние изображения, иконки и шрифты
+в текущей версии не добавлялись.

@@ -6,3 +6,7 @@ node_modules/
 data/runtime/
 data/sources/
 .pytest_cache/
+.cache/
+frontend/dist/
+.coverage
+*.egg-info/
