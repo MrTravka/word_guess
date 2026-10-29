@@ -33,6 +33,11 @@
   font-size: 13px;
   color: var(--muted);
 }
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
 .hero {
   display: grid;
   grid-template-columns: 1fr 1fr;

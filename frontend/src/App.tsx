@@ -1,4 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import AccountForm from './AccountForm'
+import SettingsPanel from './SettingsPanel'
+import { useAccount } from './useAccount'
+import accountStyles from './Account.module.css'
 import styles from './App.module.css'
 
 type Health = { status: 'ok'; database: 'ready'; version: string }
@@ -14,6 +18,14 @@ const modes = [
 export default function App() {
   const [state, setState] = useState<State>({ status: 'loading' })
   const [attempt, setAttempt] = useState(0)
+  const identity = useAccount()
+  const [settingsOpen, setSettingsOpen] = useState(false)
+  const settingsButton = useRef<HTMLButtonElement>(null)
+
+  function closeSettings() {
+    setSettingsOpen(false)
+    settingsButton.current?.focus()
+  }
 
   useEffect(() => {
     const controller = new AbortController()
@@ -40,15 +52,26 @@ export default function App() {
         <a className={styles.brand} href="/" aria-label="word_guess — главная">
           <span className={styles.logo} aria-hidden="true">с</span>word_guess
         </a>
-        <span className={styles.stage}>Начинаем со слова</span>
+        <nav className={styles.navigation} aria-label="Основная навигация">
+          {identity.account && <span className={styles.stage}>{identity.account.user.display_name}</span>}
+          <button ref={settingsButton} className={accountStyles.secondary}
+            disabled={!identity.ready} aria-expanded={settingsOpen}
+            onClick={() => setSettingsOpen((open) => !open)}>Настройки</button>
+        </nav>
       </header>
       <main>
+        {settingsOpen ? <SettingsPanel account={identity.account} theme={identity.theme}
+          saveTheme={identity.saveTheme} logout={identity.logout} close={closeSettings} /> : <>
         <section className={styles.hero} aria-labelledby="heading">
           <div>
             <p className={styles.eyebrow}>Маленькие открытия каждый день</p>
             <h1 id="heading">Слово<br />за словом.</h1>
-            <p className={styles.intro}>Немного любопытства, знакомые буквы и радость верной догадки.
-              Здесь скоро начнётся ваша история слов.</p>
+            <p className={styles.intro}>{identity.account
+              ? `${identity.account.user.display_name}, рады видеть вас. Ваш аккаунт готов к новым открытиям.`
+              : 'Немного любопытства, знакомые буквы и радость верной догадки. Здесь начнётся ваша история слов.'}</p>
+            {identity.account ? <div><button className={accountStyles.primary} disabled aria-describedby="play-help">Играть</button>
+              <p id="play-help" className={accountStyles.help}>Партии появятся в следующем обновлении.</p></div>
+              : identity.ready && <a className={accountStyles.primary} href="#account">Войти или создать аккаунт</a>}
           </div>
           <div className={styles.tiles} aria-label="Слово «слово»">
             {'СЛОВО'.split('').map((letter, index) => (
@@ -57,6 +80,14 @@ export default function App() {
             <p>Пять букв. Столько возможностей.</p>
           </div>
         </section>
+        {!identity.account && (identity.ready ? <AccountForm authenticate={identity.authenticate} />
+          : <section className={accountStyles.panel} aria-label="Аккаунт">
+            <p role="status">{identity.error || 'Восстанавливаем сессию…'}</p>
+            {identity.error && <button className={accountStyles.secondary} onClick={() => { void identity.reload() }}>Повторить вход</button>}
+          </section>)}
+        {identity.account && identity.error && <p role="alert" className={accountStyles.error}>
+          {identity.error} <button className={accountStyles.secondary} onClick={() => { void identity.reload() }}>Повторить вход</button>
+        </p>}
         <section className={styles.modes} aria-labelledby="modes-heading">
           <div className={styles.sectionTitle}>
             <h2 id="modes-heading">Четыре пути к ответу</h2><span>Скоро в игре</span>
@@ -69,8 +100,8 @@ export default function App() {
           </div>
         </section>
         <section className={styles.notice} aria-labelledby="notice-heading">
-          <div><h2 id="notice-heading">Всё начинается с основы</h2>
-            <p>Сейчас готовится первая версия игры. Регистрация, партии и награды появятся в следующих обновлениях.</p>
+          <div><h2 id="notice-heading">Слово за словом — без спешки</h2>
+            <p>Аккаунт и оформление уже доступны. Четыре режима, партии и награды появятся в следующих обновлениях.</p>
           </div>
           <div className={styles.connection} role="status" aria-live="polite">
             <span>{state.status === 'ready' ? '✓ Сервер доступен' : state.status === 'loading'
@@ -78,6 +109,7 @@ export default function App() {
             {state.status === 'error' && <button onClick={() => setAttempt((value) => value + 1)}>Повторить</button>}
           </div>
         </section>
+        </>}
       </main>
       <footer className={styles.footer}>
         <span>Играйте в своём ритме.</span>

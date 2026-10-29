@@ -6,6 +6,12 @@
     <meta name="theme-color" content="#15803d" />
     <meta name="description" content="word_guess — русские слова, четыре режима и неограниченное число партий." />
     <title>word_guess — слово за словом</title>
+    <script>
+      try {
+        var theme = localStorage.getItem('word_guess_theme');
+        if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+      } catch (_) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

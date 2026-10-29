@@ -1,4 +1,4 @@
-"""Only the dictionary schema needed for the foundation stage."""
+"""Dictionary and account tables; schema changes are managed by Alembic."""
 
 from datetime import datetime, timezone
 
@@ -39,3 +39,29 @@ class Word(Base):
     enabled_as_answer: Mapped[bool] = mapped_column(Boolean, default=False)
     enabled_as_guess: Mapped[bool] = mapped_column(Boolean, default=False)
     dictionary_version_id: Mapped[int] = mapped_column(ForeignKey("dictionary_versions.id"))
+
+
+class User(Base):
+    __tablename__ = "users"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    login: Mapped[str] = mapped_column(String(32), unique=True)
+    display_name: Mapped[str] = mapped_column(String(40))
+    password_hash: Mapped[str] = mapped_column(String(255))
+    created_at: Mapped[int]
+
+
+class AccountSession(Base):
+    __tablename__ = "sessions"
+
+    token_hash: Mapped[str] = mapped_column(String(64), primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    expires_at: Mapped[int] = mapped_column(index=True)
+
+
+class UserSettings(Base):
+    __tablename__ = "user_settings"
+    __table_args__ = (CheckConstraint("theme IN ('system', 'light', 'dark')", name="settings_theme"),)
+
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
+    theme: Mapped[str] = mapped_column(String(6), default="system")

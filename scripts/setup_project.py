@@ -55,7 +55,7 @@ def prepare(dev=False):
     python_version = subprocess.check_output([str(PYTHON), "--version"], text=True).strip()
     dependency_key = fingerprint([requirement]) + python_version
     probe = subprocess.run(
-        [str(PYTHON), "-c", "import fastapi, sqlalchemy, alembic, pydantic_settings, uvicorn" + (", pytest, httpx" if dev else "")],
+        [str(PYTHON), "-c", "import fastapi, sqlalchemy, alembic, pydantic_settings, uvicorn, argon2" + (", pytest, httpx" if dev else "")],
         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
     )
     if state.get(requirement.name) != dependency_key or probe.returncode:

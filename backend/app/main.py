@@ -3,7 +3,8 @@
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
@@ -14,6 +15,8 @@ from .bootstrap import migration_head
 from .config import FRONTEND_DIST, Settings
 from .database import create_database
 from .version import VERSION
+from .accounts import router as accounts_router
+from .security import AuthLimiter
 
 
 def readiness(engine: Engine, revision_head: str) -> bool:
@@ -29,7 +32,8 @@ def readiness(engine: Engine, revision_head: str) -> bool:
 
 
 def create_app(settings: Settings | None = None, frontend_dist: Path = FRONTEND_DIST) -> FastAPI:
-    engine = create_database(settings or Settings())
+    settings = settings or Settings()
+    engine = create_database(settings)
     revision_head = migration_head()
 
     @asynccontextmanager
@@ -41,6 +45,28 @@ def create_app(settings: Settings | None = None, frontend_dist: Path = FRONTEND_
 
     app = FastAPI(title="word_guess", version=VERSION, lifespan=lifespan)
     app.state.engine = engine
+    app.state.settings = settings
+    app.state.auth_limiter = AuthLimiter()
+
+    @app.middleware("http")
+    async def protect_api(request: Request, call_next):
+        if request.url.path.startswith("/api/"):
+            if request.method not in {"GET", "HEAD", "OPTIONS"}:
+                origin = request.headers.get("origin")
+                allowed = {str(request.base_url).rstrip("/"), *settings.auth_allowed_origins}
+                if request.headers.get("x-requested-with") != "word_guess" or (origin is not None and origin not in allowed):
+                    return JSONResponse({"detail": "Запрос с этого источника запрещён."}, status_code=403, headers={"Cache-Control": "no-store"})
+            response = await call_next(request)
+            response.headers["Cache-Control"] = "no-store"
+            return response
+        return await call_next(request)
+
+    @app.exception_handler(RequestValidationError)
+    async def validation_error(_request: Request, _error: RequestValidationError):
+        # Pydantic errors may include the submitted password; never echo inputs.
+        return JSONResponse({"detail": "Проверьте данные: логин 3–32 буквы/цифры/_, пароль 8–128 символов, имя 1–40 символов; тема — системная, светлая или тёмная."}, status_code=422)
+
+    app.include_router(accounts_router)
 
     @app.get("/api/health")
     def health():

@@ -68,6 +68,8 @@ SHA256: `8ec667484061fa644c9aabd0d8cd4946f5862e197271d31fae78aa460bc22ee6`.
 | Uvicorn | BSD-3-Clause | https://github.com/encode/uvicorn |
 | SQLAlchemy / Alembic | MIT | https://github.com/sqlalchemy |
 | Pydantic / pydantic-settings | MIT | https://github.com/pydantic |
+| argon2-cffi | MIT | https://github.com/hynek/argon2-cffi |
+| argon2-cffi-bindings | MIT | https://github.com/hynek/argon2-cffi-bindings |
 
 Интерфейс использует системные шрифты. Сторонние изображения, иконки и шрифты
 в текущей версии не добавлялись.

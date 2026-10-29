@@ -17,6 +17,9 @@ class Settings(BaseSettings):
     app_host: str = "127.0.0.1"
     app_port: int = Field(default=8000, ge=1, le=65535)
     vite_port: int = Field(default=5173, ge=1, le=65535)
+    session_days: int = Field(default=30, ge=1, le=90)
+    cookie_secure: bool = False
+    auth_allowed_origins: list[str] = []
 
     @field_validator("database_url")
     @classmethod

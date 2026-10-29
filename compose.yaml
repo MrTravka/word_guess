@@ -6,6 +6,9 @@ services:
     environment:
       DATABASE_URL: sqlite:////data/word_guess.db
       SQLITE_BUSY_TIMEOUT: "5000"
+      SESSION_DAYS: "${SESSION_DAYS:-30}"
+      COOKIE_SECURE: "${COOKIE_SECURE:-false}"
+      AUTH_ALLOWED_ORIGINS: '${AUTH_ALLOWED_ORIGINS:-[]}'
     volumes:
       - word_guess_data:/data
     init: true

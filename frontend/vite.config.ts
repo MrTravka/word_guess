@@ -9,7 +9,13 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     server: {
       port: Number(env.VITE_PORT ?? 5173),
-      proxy: { '/api': `http://127.0.0.1:${env.APP_PORT ?? 8000}` },
+      proxy: {
+        '/api': {
+          target: `http://127.0.0.1:${env.APP_PORT ?? 8000}`,
+          // Keep the browser's Host so the API can validate same-origin writes.
+          changeOrigin: false,
+        },
+      },
     },
   }
 })
