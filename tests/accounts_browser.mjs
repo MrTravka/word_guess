@@ -155,11 +155,18 @@ engine.dispose()`
     const result = await promisify(execFile)(python, ['-c', source, path.join(directory, 'test.db')], { windowsHide: true })
     return JSON.parse(result.stdout)
   }
+  const prepareLeaderboards = async () => {
+    await promisify(execFile)(python, [path.join(root, 'tests/leaderboard_fixtures.py'), path.join(directory, 'test.db')],
+      { windowsHide: true })
+  }
   await send('Page.enable')
   await send('Network.enable')
   await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1100, deviceScaleFactor: 1, mobile: false })
   await send('Page.navigate', { url })
-  if (process.argv.includes('--chests')) {
+  if (process.argv.includes('--leaderboards')) {
+    const { leaderboardsScenario } = await import('./leaderboards_scenario.mjs')
+    await leaderboardsScenario({ evaluate, send, text, click, fill, setAnswer, prepareLeaderboards, directory, url, waitFor })
+  } else if (process.argv.includes('--chests')) {
     const { chestScenario } = await import('./chests_scenario.mjs')
     await chestScenario({ evaluate, send, text, click, fill, setAnswer, prepareChests, directory, url, waitFor })
   } else if (process.argv.includes('--campaign')) {
@@ -237,7 +244,8 @@ engine.dispose()`
   await text('Создать аккаунт')
   }
   assert(server.exitCode === null, server.log)
-  const scenario = process.argv.includes('--chests') ? 'chests' : process.argv.includes('--campaign') ? 'campaign'
+  const scenario = process.argv.includes('--leaderboards') ? 'leaderboards'
+    : process.argv.includes('--chests') ? 'chests' : process.argv.includes('--campaign') ? 'campaign'
     : process.argv.includes('--economy') ? 'economy' : process.argv.includes('--games') ? 'games' : 'account'
   console.log(`PASS ${process.argv.includes('--dev') ? 'Vite proxy' : 'production'}: ${scenario} scenario`)
   console.log(`Screenshots: ${directory}`)

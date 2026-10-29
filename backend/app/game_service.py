@@ -140,9 +140,11 @@ def mutate_game(connection, user_id: int, game_id: str, kind: str, data) -> dict
     connection.execute(insert(GameOperation).values(
         game_id=game_id, operation_key=key, kind=kind, word=word, expected_version=data.version,
     ))
+    finished_at_ns = time.time_ns() if status != "active" else None
     connection.execute(update(Game).where(Game.id == game_id).values(
         version=game["version"] + 1, status=status,
-        finished_at=int(time.time()) if status != "active" else None,
+        finished_at=finished_at_ns // 1000000000 if finished_at_ns is not None else None,
+        finished_at_ns=finished_at_ns,
     ))
     finished = owned_game(connection, game_id, user_id)
     record_result(connection, finished)

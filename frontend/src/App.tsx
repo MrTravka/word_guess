@@ -13,6 +13,7 @@ import { useCampaign } from './campaign/useCampaign'
 import CollectionScreen from './collection/CollectionScreen'
 import ChestList from './collection/ChestList'
 import ChestScreen from './collection/ChestScreen'
+import LeaderboardsScreen from './leaderboards/LeaderboardsScreen'
 
 type Health = { status: 'ok'; database: 'ready'; version: string }
 type State = { status: 'loading' | 'error' } | { status: 'ready'; health: Health }
@@ -85,6 +86,8 @@ export default function App() {
         {settingsOpen ? <SettingsPanel account={identity.account} theme={identity.theme}
           saveTheme={identity.saveTheme} logout={identity.logout} close={closeSettings} />
           : location.pathname === '/shop' && identity.account ? <ShopScreen userId={identity.account.user.id} />
+          : location.pathname === '/leaderboards' && identity.account ? <LeaderboardsScreen key={identity.account.user.id}
+            userId={identity.account.user.id} />
           : location.pathname === '/collection' && identity.account ? <CollectionScreen key={identity.account.user.id}
             userId={identity.account.user.id} />
           : location.pathname === '/chests' && identity.account ? <ChestList key={identity.account.user.id}
@@ -104,7 +107,10 @@ export default function App() {
               ? `${identity.account.user.display_name}, рады видеть вас. Ваш аккаунт готов к новым открытиям.`
               : 'Немного любопытства, знакомые буквы и радость верной догадки. Здесь начнётся ваша история слов.'}</p>
             {identity.account && campaign.data && <p className={styles.intro}>Кампания · уровень {campaign.data.current_level}</p>}
-            {identity.account ? <Link className={accountStyles.primary} to="/#modes-heading">Играть</Link>
+            {identity.account ? <div className={styles.homeActions}>
+              <Link className={accountStyles.primary} to="/#modes-heading">Играть</Link>
+              <Link className={accountStyles.secondary} to="/leaderboards">Рейтинг</Link>
+            </div>
               : identity.ready && <a className={accountStyles.primary} href="#account">Войти или создать аккаунт</a>}
           </div>
           <div className={styles.tiles} aria-label="Слово «слово»">

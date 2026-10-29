@@ -31,6 +31,7 @@ export function useGame(userId: number, mode: Mode) {
       client.setQueryData(key, game)
       client.setQueryData(['inventory', userId], game.economy)
       void client.invalidateQueries({ queryKey: ['campaign', userId] })
+      if (game.status !== 'active') void client.invalidateQueries({ queryKey: ['leaderboards', userId] })
       setPending(null)
       return true
     } catch (cause) {

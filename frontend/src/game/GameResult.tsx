@@ -30,5 +30,6 @@ export default function GameResult({ game, busy, start }: { game: Game; busy: bo
     </>}
     <button className={shared.primary} disabled={busy} onClick={start}>{game.campaign
       ? game.status === 'won' ? 'Следующий уровень' : 'Попробовать другое слово' : 'Следующее слово'}</button>
+    <p><Link className={shared.secondary} to={`/leaderboards?mode=${game.mode}#statistics-heading`}>Моя статистика</Link></p>
   </section>
 }

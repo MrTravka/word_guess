@@ -33,6 +33,7 @@ class Game(Base):
     version: Mapped[int]
     created_at: Mapped[int]
     finished_at: Mapped[int | None]
+    finished_at_ns: Mapped[int | None]
 
 
 class GameStart(Base):

@@ -79,6 +79,7 @@
   font-size: 15px;
   margin: 0;
 }
+.homeActions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
 .tiles {
   display: flex;
   justify-content: center;

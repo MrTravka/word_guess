@@ -45,6 +45,7 @@ export default function SettingsPanel({ account, theme, saveTheme, logout, close
     </div>
     {account && <p>Вы вошли как <strong>{account.user.display_name}</strong> · @{account.user.login}</p>}
     {account && <p><Link className={styles.secondary} to="/collection" onClick={close}>Коллекция и сундуки</Link></p>}
+    {account && <p><Link className={styles.secondary} to="/leaderboards#statistics-heading" onClick={close}>Моя статистика</Link></p>}
     <fieldset className={styles.preferences} disabled={busy}>
       <legend>Оформление</legend>
       <div className={styles.themes}>
