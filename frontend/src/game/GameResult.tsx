@@ -24,7 +24,8 @@ export default function GameResult({ game, busy, start }: { game: Game; busy: bo
       {' '}Использовано подсказок: {game.reward.hints}.</p>}
     {game.campaign && <>
       {game.campaign.stars && <p aria-label={`Звёзд: ${game.campaign.stars}`}>{'★'.repeat(game.campaign.stars)}</p>}
-      {game.campaign.chest_id && <p>Сундук за уровень {game.campaign.level} сохранён!</p>}
+      {game.campaign.chest_id && <p>Сундук за уровень {game.campaign.level} сохранён!{' '}
+        <Link className={shared.secondary} to={`/chests/${game.campaign.chest_id}`}>Открыть сундук</Link></p>}
       <p><Link to="/campaign" className={shared.secondary}>Карта кампании</Link></p>
     </>}
     <button className={shared.primary} disabled={busy} onClick={start}>{game.campaign

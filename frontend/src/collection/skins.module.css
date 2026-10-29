@@ -1,0 +1,44 @@
+.surface[data-skin]:not([data-skin='']) {
+  padding: 14px;
+  border-radius: 22px;
+  border: 1px solid var(--line);
+}
+.surface[data-skin='linen'] {
+  background: repeating-linear-gradient(90deg, var(--soft) 0 1px, transparent 1px 8px);
+}
+[data-skin='linen'] [data-word-cell] { border-style: double; border-width: 3px; border-radius: 6px; }
+.surface[data-skin='grove'] {
+  background: radial-gradient(ellipse at bottom left, var(--soft), transparent 70%);
+}
+[data-skin='grove'] [data-word-cell] { border-radius: 18px 6px; }
+.surface[data-skin='orbit'] {
+  background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+[data-skin='orbit'] [data-word-cell] { border-radius: 50%; }
+.surface[data-skin='mosaic'] {
+  background-image: repeating-linear-gradient(45deg, var(--soft) 0 12px, transparent 12px 24px);
+}
+[data-skin='mosaic'] [data-word-cell] { border-radius: 2px; }
+.surface[data-skin='contour'] {
+  background-image: repeating-linear-gradient(-45deg, transparent 0 11px, var(--line) 11px 12px);
+}
+[data-skin='contour'] [data-word-cell] { border-radius: 12px; border-width: 3px; }
+.surface[data-skin='nightfall'] {
+  background-image: radial-gradient(var(--muted) 1px, transparent 1px);
+  background-size: 23px 23px;
+}
+[data-skin='nightfall'] [data-word-cell] { border-radius: 14px; box-shadow: 0 3px 0 var(--line); }
+.preview { display: flex; justify-content: center; gap: 6px; margin: 12px 0; }
+.cell {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  font-size: 22px;
+  font-weight: 700;
+}
+.cell small { position: absolute; bottom: 0; right: 4px; font-size: 10px; }

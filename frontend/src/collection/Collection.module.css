@@ -1,0 +1,20 @@
+.screen { max-width: 840px; margin: 32px auto 48px; line-height: 1.6; }
+.heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.heading h1 { margin: 0; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 22px 0; }
+.card { min-width: 0; border: 1px solid var(--line); background: var(--surface); border-radius: 18px; padding: 20px; }
+.card h2 { margin: 0; font-size: 20px; }
+.card p { color: var(--muted); font-size: 14px; }
+.card button { white-space: normal; }
+.tabs { display: flex; gap: 12px; flex-wrap: wrap; margin: 22px 0; }
+.odds { margin: 24px 0; font-size: 14px; }
+.odds summary { cursor: pointer; color: var(--accent); }
+.odds table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+.odds th, .odds td { padding: 10px 6px; text-align: left; border-bottom: 1px solid var(--line); }
+.odds p { color: var(--muted); }
+.result { padding: 24px; border: 1px solid var(--line); background: var(--soft); border-radius: 18px; margin: 24px 0; }
+.result h2 { margin: 0 0 8px; color: var(--accent); }
+@media (max-width: 600px) {
+  .grid { grid-template-columns: 1fr; }
+  .odds th, .odds td { font-size: 12px; padding: 9px 3px; }
+}

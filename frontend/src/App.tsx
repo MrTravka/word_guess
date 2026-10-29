@@ -10,6 +10,9 @@ import { useEconomy } from './economy/useEconomy'
 import ShopScreen from './economy/ShopScreen'
 import CampaignScreen from './campaign/CampaignScreen'
 import { useCampaign } from './campaign/useCampaign'
+import CollectionScreen from './collection/CollectionScreen'
+import ChestList from './collection/ChestList'
+import ChestScreen from './collection/ChestScreen'
 
 type Health = { status: 'ok'; database: 'ready'; version: string }
 type State = { status: 'loading' | 'error' } | { status: 'ready'; health: Health }
@@ -29,6 +32,7 @@ export default function App() {
   const settingsButton = useRef<HTMLButtonElement>(null)
   const location = useLocation()
   const match = useMatch('/play/:mode')
+  const chestMatch = useMatch('/chests/:chestId')
   const mode = match?.params.mode
   const playing = mode === '4' || mode === '5' || mode === '6' || mode === 'campaign'
   const economy = useEconomy(identity.account?.user.id)
@@ -81,6 +85,13 @@ export default function App() {
         {settingsOpen ? <SettingsPanel account={identity.account} theme={identity.theme}
           saveTheme={identity.saveTheme} logout={identity.logout} close={closeSettings} />
           : location.pathname === '/shop' && identity.account ? <ShopScreen userId={identity.account.user.id} />
+          : location.pathname === '/collection' && identity.account ? <CollectionScreen key={identity.account.user.id}
+            userId={identity.account.user.id} />
+          : location.pathname === '/chests' && identity.account ? <ChestList key={identity.account.user.id}
+            userId={identity.account.user.id} />
+          : chestMatch?.params.chestId && identity.account ? <ChestScreen
+            key={`${identity.account.user.id}-${chestMatch.params.chestId}`} userId={identity.account.user.id}
+            chestId={chestMatch.params.chestId} />
           : location.pathname === '/campaign' && identity.account ? <CampaignScreen key={identity.account.user.id}
             userId={identity.account.user.id} />
           : playing && identity.account ? <GameScreen key={`${identity.account.user.id}-${mode}`}

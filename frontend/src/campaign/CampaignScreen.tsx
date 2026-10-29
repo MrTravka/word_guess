@@ -32,7 +32,7 @@ export default function CampaignScreen({ userId }: { userId: number }) {
         <strong>Текущий уровень: {map.current_level}</strong>
         <Link className={shared.primary} to="/play/campaign">Продолжить кампанию</Link>
         <p>Сундуков получено: {map.chests}. Сундук сохраняется за каждый десятый пройденный уровень.
-          {' '}Открытие пока недоступно.</p>
+          {' '}<Link to="/chests">Открыть сундуки</Link> · <Link to="/collection">Коллекция</Link></p>
       </div>
       <details className={styles.rules}><summary>Как получить звёзды</summary>
         <p>3 звезды — за 1–2 попытки без подсказок; 2 — за 3–4; 1 — за 5–6 или с подсказками.

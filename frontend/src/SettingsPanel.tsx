@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import type { Account, Theme } from './api'
 import styles from './Account.module.css'
 
@@ -43,6 +44,7 @@ export default function SettingsPanel({ account, theme, saveTheme, logout, close
       <button className={styles.secondary} onClick={close} disabled={busy}>На главную</button>
     </div>
     {account && <p>Вы вошли как <strong>{account.user.display_name}</strong> · @{account.user.login}</p>}
+    {account && <p><Link className={styles.secondary} to="/collection" onClick={close}>Коллекция и сундуки</Link></p>}
     <fieldset className={styles.preferences} disabled={busy}>
       <legend>Оформление</legend>
       <div className={styles.themes}>

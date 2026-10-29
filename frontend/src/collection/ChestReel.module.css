@@ -1,0 +1,20 @@
+.reveal { text-align: center; margin: 24px 0; }
+.viewport { position: relative; overflow: hidden; padding: 24px 0; border: 1px solid var(--line); border-radius: 18px; }
+.pointer { position: absolute; left: calc(50% - 10px); top: 0; border-left: 10px solid transparent;
+  border-right: 10px solid transparent; border-top: 15px solid var(--accent); z-index: 1; }
+.track { display: flex; width: 100%; gap: 12px; animation: spin 4.5s cubic-bezier(.12, .65, .12, 1) both; }
+.card { display: flex; flex: 0 0 132px; min-width: 0; overflow-wrap: anywhere; min-height: 150px; padding: 12px; flex-direction: column;
+  justify-content: center; gap: 8px; background: var(--surface); border: 2px solid var(--line); border-radius: 14px; }
+.card span { font-size: 26px; color: var(--accent); }
+.card strong { font-size: 14px; }
+.card small { font-size: 11px; color: var(--muted); }
+.card[data-rarity='rare'] { border-style: dashed; }
+.card[data-rarity='very_rare'] { border-style: double; border-width: 4px; }
+.note { color: var(--muted); font-size: 13px; }
+@keyframes spin {
+  from { transform: translateX(calc(50% - 66px)); }
+  to { transform: translateX(calc(50% - var(--stop))); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .track { animation: none; transform: translateX(calc(50% - var(--stop))); }
+}

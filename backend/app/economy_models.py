@@ -31,7 +31,8 @@ class WalletTransaction(Base):
     __table_args__ = (
         UniqueConstraint("user_id", "operation_key", name="wallet_operation_key"),
         CheckConstraint("amount != 0", name="wallet_transaction_nonzero"),
-        CheckConstraint("reason IN ('starter', 'purchase', 'win')", name="wallet_transaction_reason"),
+        CheckConstraint("reason IN ('starter', 'purchase', 'win', 'chest')", name="wallet_transaction_reason"),
+        UniqueConstraint("chest_id", name="wallet_chest_once"),
     )
 
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -41,6 +42,7 @@ class WalletTransaction(Base):
     reason: Mapped[str] = mapped_column(String(8))
     item: Mapped[str | None] = mapped_column(String(15))
     game_id: Mapped[str | None] = mapped_column(ForeignKey("games.id"), unique=True)
+    chest_id: Mapped[str | None] = mapped_column(ForeignKey("chests.id", name="wallet_chest"))
 
 
 class GameReward(Base):

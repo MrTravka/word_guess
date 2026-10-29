@@ -40,6 +40,7 @@ export default function ShopScreen({ userId }: { userId: number }) {
     <div className={styles.heading}><h1 id="shop-heading">Магазин подсказок</h1><Link to="/" className={shared.secondary}>На главную</Link></div>
     <p>Покупайте за игровые монеты и используйте в любой своей партии. Применение подсказки уменьшает очки за победу; монеты за победу сохраняются.</p>
     <p className={styles.balance}>Баланс: <strong>{wallet.data?.coins ?? '…'}</strong> монет</p>
+    <p><Link className={shared.secondary} to="/collection">Коллекция и сундуки</Link></p>
     {(catalog.error || wallet.error) && <p role="alert">{(catalog.error || wallet.error)?.message}
       {' '}<button className={shared.secondary} onClick={() => { void catalog.refetch(); void wallet.refetch() }}>Повторить</button></p>}
     <div className={styles.items}>

@@ -8,6 +8,7 @@ from backend.app.models import Base
 from backend.app import game_models  # Register game tables in Alembic metadata.
 from backend.app import economy_models  # Register balances and hint tables.
 from backend.app import campaign_models  # Register campaign history and chests.
+from backend.app import chest_models  # Register saved openings and cosmetics.
 
 
 def run(connection):

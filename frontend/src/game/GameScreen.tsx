@@ -9,11 +9,14 @@ import GameResult from './GameResult'
 import HintPanel from './HintPanel'
 import shared from '../Account.module.css'
 import styles from './Game.module.css'
+import { useCollection } from '../collection/useCollection'
+import skinStyles from '../collection/skins.module.css'
 
 type Props = { userId: number; mode: Mode; refreshAccount: () => Promise<void> }
 
 export default function GameScreen({ userId, mode, refreshAccount }: Props) {
   const state = useGame(userId, mode)
+  const collection = useCollection(userId)
   const { game, busy, pending } = state
   const [draft, setDraft] = useState('')
   const [notice, setNotice] = useState('')
@@ -87,7 +90,8 @@ export default function GameScreen({ userId, mode, refreshAccount }: Props) {
     await state.action('surrender')
   }
 
-  return <section className={styles.game} aria-labelledby="game-heading">
+  return <section className={`${styles.game} ${skinStyles.surface}`} data-skin={collection.data?.selected_skin ?? ''}
+    aria-labelledby="game-heading">
     <div className={styles.top}>
       <Link to={mode === 'campaign' ? '/campaign' : '/#modes-heading'} className={shared.secondary}>
         {mode === 'campaign' ? 'Карта' : 'Режимы'}</Link>

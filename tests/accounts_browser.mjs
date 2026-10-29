@@ -123,11 +123,46 @@ c.commit()
 c.close()`
     await promisify(execFile)(python, ['-c', source, path.join(directory, 'test.db'), gameId, word], { windowsHide: true })
   }
+  const prepareChests = async () => {
+    // Exercise the real campaign services, then seed six controlled cosmetic outcomes.
+    const source = `import json,sys
+from types import SimpleNamespace
+from unittest.mock import patch
+from uuid import uuid4
+from sqlalchemy import select
+from backend.app.config import Settings
+from backend.app.database import create_database
+from backend.app.models import User
+from backend.app.campaign_models import Chest
+from backend.app.chest_service import open_chest
+from backend.app.game_service import create_game, mutate_game, owned_game
+engine=create_database(Settings(_env_file=None,database_url='sqlite:///'+sys.argv[1].replace('\\\\','/')))
+with engine.connect() as c:
+    user=c.execute(select(User.id).where(User.login=='chests_browser')).scalar_one()
+for level in range(1,101):
+    with engine.connect().execution_options(sqlite_immediate=True) as c,c.begin():
+        g=create_game(c,user,'campaign',str(uuid4()))
+        word=owned_game(c,g['id'],user)['answer']
+        mutate_game(c,user,g['id'],'guess',SimpleNamespace(word=word,version=g['version'],operation_id=uuid4()))
+with engine.connect() as c:
+    ids=c.execute(select(Chest.id).where(Chest.user_id==user).order_by(Chest.level)).scalars().all()
+for index,chest in enumerate(ids[4:]):
+    with patch('backend.app.chest_service.roll_prize',return_value={'kind':'skin','coins':0,'rarity':'very_rare','title':'skin'}),patch('backend.app.chest_service.secrets.choice',side_effect=lambda skins,index=index:skins[index]):
+        with engine.connect().execution_options(sqlite_immediate=True) as c,c.begin():
+            open_chest(c,user,chest,str(uuid4()))
+print(json.dumps(ids[:4]))
+engine.dispose()`
+    const result = await promisify(execFile)(python, ['-c', source, path.join(directory, 'test.db')], { windowsHide: true })
+    return JSON.parse(result.stdout)
+  }
   await send('Page.enable')
   await send('Network.enable')
   await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1100, deviceScaleFactor: 1, mobile: false })
   await send('Page.navigate', { url })
-  if (process.argv.includes('--campaign')) {
+  if (process.argv.includes('--chests')) {
+    const { chestScenario } = await import('./chests_scenario.mjs')
+    await chestScenario({ evaluate, send, text, click, fill, setAnswer, prepareChests, directory, url, waitFor })
+  } else if (process.argv.includes('--campaign')) {
     const { campaignScenario } = await import('./campaign_scenario.mjs')
     await campaignScenario({ evaluate, send, text, click, fill, setAnswer, directory, url, waitFor })
   } else if (process.argv.includes('--economy')) {
@@ -202,7 +237,7 @@ c.close()`
   await text('Создать аккаунт')
   }
   assert(server.exitCode === null, server.log)
-  const scenario = process.argv.includes('--campaign') ? 'campaign'
+  const scenario = process.argv.includes('--chests') ? 'chests' : process.argv.includes('--campaign') ? 'campaign'
     : process.argv.includes('--economy') ? 'economy' : process.argv.includes('--games') ? 'games' : 'account'
   console.log(`PASS ${process.argv.includes('--dev') ? 'Vite proxy' : 'production'}: ${scenario} scenario`)
   console.log(`Screenshots: ${directory}`)

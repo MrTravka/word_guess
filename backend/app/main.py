@@ -21,6 +21,7 @@ from .games import router as games_router
 from .economy import router as economy_router
 from .hints import router as hints_router
 from .campaign import router as campaign_router
+from .chests import router as chests_router
 
 
 def readiness(engine: Engine, revision_head: str) -> bool:
@@ -74,6 +75,8 @@ def create_app(settings: Settings | None = None, frontend_dist: Path = FRONTEND_
             return JSONResponse({"detail": "Некорректная покупка: выберите предмет и новый ключ операции."}, status_code=422)
         if request.url.path.startswith("/api/campaign"):
             return JSONResponse({"detail": "Некорректный номер главы кампании."}, status_code=422)
+        if request.url.path.startswith(("/api/chests", "/api/collection")):
+            return JSONResponse({"detail": "Некорректный запрос сундука или коллекции."}, status_code=422)
         return JSONResponse({"detail": "Проверьте данные: логин 3–32 буквы/цифры/_, пароль 8–128 символов, имя 1–40 символов; тема — системная, светлая или тёмная."}, status_code=422)
 
     app.include_router(accounts_router)
@@ -81,6 +84,7 @@ def create_app(settings: Settings | None = None, frontend_dist: Path = FRONTEND_
     app.include_router(economy_router)
     app.include_router(hints_router)
     app.include_router(campaign_router)
+    app.include_router(chests_router)
 
     @app.get("/api/health")
     def health():
