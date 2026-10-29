@@ -107,10 +107,14 @@ export default function App() {
           : playing && identity.account ? <GameScreen key={`${identity.account.user.id}-${mode}`}
             userId={identity.account.user.id} mode={mode} refreshAccount={identity.reload} /> : <>
         {identity.account ? <section className={homeStyles.home} aria-label="Главное меню">
-          <div className={homeStyles.actions}>
-            <Link className={accountStyles.primary} to="/modes">Играть</Link>
-            <Link className={accountStyles.secondary} to="/leaderboards">Рейтинг</Link>
-            <Link className={accountStyles.secondary} to="/shop">Магазин</Link>
+          <div className={homeStyles.content}>
+            <p className={homeStyles.description}>Угадайте слово за шесть попыток, ориентируясь на подсказки о буквах.
+              {' '}Играйте на 4, 5 или 6 букв или проходите кампанию.</p>
+            <div className={homeStyles.actions}>
+              <Link className={accountStyles.primary} to="/modes">Играть</Link>
+              <Link className={accountStyles.secondary} to="/leaderboards">Рейтинг</Link>
+              <Link className={accountStyles.secondary} to="/shop">Магазин</Link>
+            </div>
           </div>
         </section> : <section className={styles.hero} aria-labelledby="heading">
           <div>
