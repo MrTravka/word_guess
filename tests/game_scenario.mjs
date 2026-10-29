@@ -22,7 +22,11 @@ export async function gameScenario({ evaluate, send, text, click, fill, setAnswe
   }
   const screenSubmit = () => evaluate(`document.querySelector('button[aria-label="Отправить слово"]').click()`)
   const openMode = async (mode) => {
-    await send('Page.navigate', { url: `${url}/play/${mode}` })
+    await send('Page.navigate', { url })
+    await text('Играть')
+    await evaluate(`document.querySelector('main a[href="/modes"]').click()`)
+    await text('Выберите режим')
+    await evaluate(`document.querySelector('main a[href="/play/${mode}"]').click()`)
     await text('Начать партию')
     await click('Начать партию')
     await text('Принято попыток: 0 из 6.')

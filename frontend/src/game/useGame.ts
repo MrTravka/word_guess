@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { api, ApiError } from '../api'
+import { operationId } from '../operationId'
 import type { Game, Mode } from './types'
 import type { HintKind } from '../economy/types'
 import { useUpdateGuard } from '../pwa/activity'
@@ -54,7 +55,7 @@ export function useGame(userId: number, mode: Mode) {
 
   function start() {
     if (pending) return Promise.resolve(false)
-    return send({ path: '/games', body: { mode, operation_id: crypto.randomUUID() } })
+    return send({ path: '/games', body: { mode, operation_id: operationId() } })
   }
 
   function action(kind: 'guess' | 'surrender', word?: string) {
@@ -62,7 +63,7 @@ export function useGame(userId: number, mode: Mode) {
     if (!game || pending) return Promise.resolve(false)
     return send({
       path: `/games/${game.id}/${kind === 'guess' ? 'guesses' : 'surrender'}`,
-      body: { operation_id: crypto.randomUUID(), version: game.version, ...(word === undefined ? {} : { word }) },
+      body: { operation_id: operationId(), version: game.version, ...(word === undefined ? {} : { word }) },
     })
   }
 
@@ -71,7 +72,7 @@ export function useGame(userId: number, mode: Mode) {
     if (!game || pending) return Promise.resolve(false)
     return send({
       path: `/games/${game.id}/hints`,
-      body: { operation_id: crypto.randomUUID(), version: game.version, kind, ...(position === undefined ? {} : { position }) },
+      body: { operation_id: operationId(), version: game.version, kind, ...(position === undefined ? {} : { position }) },
     })
   }
 

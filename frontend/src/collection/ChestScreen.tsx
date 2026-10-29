@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { api, ApiError } from '../api'
+import { operationId } from '../operationId'
 import type { ChestDetail } from './types'
 import { rarity } from './types'
 import ChestOdds from './ChestOdds'
@@ -35,7 +36,7 @@ export default function ChestScreen({ userId, chestId }: { userId: number; chest
     lock.current = true
     setBusy(true)
     setMessage('')
-    const operation_id = pending ?? crypto.randomUUID()
+    const operation_id = pending ?? operationId()
     await client.cancelQueries({ queryKey: key })
     await client.cancelQueries({ queryKey: ['inventory', userId] })
     try {

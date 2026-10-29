@@ -47,6 +47,8 @@ async function waitFor(predicate, description) {
 }
 
 try {
+  const lanTest = process.argv.includes('--lan')
+  assert(!(lanTest && process.argv.includes('--dev')), '--lan uses the production server')
   const pwaTest = process.argv.includes('--pwa')
   const testFrontend = path.join(directory, 'dist')
   if (pwaTest) await cp(path.join(root, 'frontend/dist'), testFrontend, { recursive: true })
@@ -62,7 +64,7 @@ try {
     try { return (await fetch(`http://127.0.0.1:${port}/api/health`)).ok } catch { return false }
   }, 'API startup')
   console.log('API ready')
-  let url = `http://127.0.0.1:${port}`
+  let url = `http://${lanTest ? 'word-guess.test' : '127.0.0.1'}:${port}`
   if (process.argv.includes('--dev')) {
     const frontendPort = await freePort()
     start(process.execPath, [path.join(root, 'frontend/node_modules/vite/bin/vite.js'), '--host', '127.0.0.1', '--port', String(frontendPort), '--strictPort'],
@@ -77,6 +79,7 @@ try {
   const chrome = start(process.env.CHROME_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe', [
     '--headless=new', '--disable-gpu', '--no-first-run', '--no-default-browser-check',
     '--disable-background-networking', '--disable-extensions', '--remote-debugging-port=0',
+    ...(lanTest ? ['--host-resolver-rules=MAP word-guess.test 127.0.0.1', '--no-proxy-server'] : []),
     '--remote-debugging-address=127.0.0.1', `--user-data-dir=${profile}`, 'about:blank',
   ])
   let debugPort
@@ -163,6 +166,14 @@ engine.dispose()`
   await send('Network.enable')
   await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1100, deviceScaleFactor: 1, mobile: false })
   await send('Page.navigate', { url })
+  if (lanTest) {
+    await text('Создать аккаунт')
+    assert.equal(await evaluate('window.isSecureContext'), false)
+    assert.equal(await evaluate('typeof crypto.randomUUID'), 'undefined')
+    assert.equal(await evaluate('typeof crypto.getRandomValues'), 'function')
+    await send('Emulation.setDeviceMetricsOverride', { width: 360, height: 900, deviceScaleFactor: 1, mobile: true })
+    console.log('Mobile HTTP context: randomUUID unavailable, getRandomValues available')
+  }
   if (process.argv.includes('--acceptance')) {
     const { acceptanceScenario } = await import('./acceptance_scenario.mjs')
     await acceptanceScenario({ evaluate, send, text, click, fill, setAnswer, restoreDatabase, directory, url, waitFor })

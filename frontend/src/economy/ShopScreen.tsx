@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { api, ApiError } from '../api'
+import { operationId } from '../operationId'
 import { useEconomy } from './useEconomy'
 import type { CatalogItem, Economy, HintKind } from './types'
 import shared from '../Account.module.css'
@@ -20,7 +21,7 @@ export default function ShopScreen({ userId }: { userId: number }) {
 
   async function purchase(item: HintKind) {
     if (lock.current) return
-    const body = pending ?? { item, operation_id: crypto.randomUUID() }
+    const body = pending ?? { item, operation_id: operationId() }
     lock.current = true
     setBusy(true)
     setMessage('')
