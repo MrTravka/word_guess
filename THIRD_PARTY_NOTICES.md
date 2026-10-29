@@ -27,12 +27,44 @@
 в [sources.json](data/words/sources.json). Отчёт содержит контрольные суммы
 подготовленных файлов. Выборка не означает одобрения проекта авторами источника.
 
+Дополнительные допустимые вводы сверяются по наличию русской статьи
+существительного в Викисловаре; они помечены `guess` и не включаются в пул
+ответов. Редакторские запреты имеют приоритет. Морфологические данные по-прежнему
+происходят из OpenCorpora; ссылки на подтверждающие статьи сохранены в `reviews.json`.
+
 Инструменты подготовки устанавливаются отдельно в `.venv`, их код в проект
 не копируется: [pymorphy3](https://github.com/no-plagiarism/pymorphy3) и
 [dawg2-python](https://github.com/no-plagiarism/dawg2-python) — MIT;
 [setuptools](https://github.com/pypa/setuptools) — MIT. Их версии и хеши
 зафиксированы в `scripts/content-requirements.txt`. Лицензия Python-кода
 словарного пакета MIT не заменяет лицензию его данных CC BY-SA 3.0.
+
+## Толкования русского Викисловаря
+
+Авторы — [участники русского Викисловаря](https://ru.wiktionary.org/).
+Использована необработанная выгрузка [Kaikki / Wiktextract](https://kaikki.org/ruwiktionary/rawdata.html):
+дамп 01.10.2026, извлечение 28.10.2026, Wiktextract `19f9a30` / `6f96ddf`.
+Извлечение — Tatu Ylonen и участники Wiktextract. Условия исходных данных:
+[страница лицензирования Kaikki](https://kaikki.org/ruwiktionary/index.html).
+Для локальной выборки выбрана **CC BY-SA 4.0 International**:
+[условия](https://creativecommons.org/licenses/by-sa/4.0/),
+[полный текст](data/licenses/CC-BY-SA-4.0.txt).
+
+Производный файл `data/definitions/entries.json` содержит 10036 коротких
+толкований. Отобраны русские статьи существительных, сопоставленные с
+морфологическими кандидатами OpenCorpora; исключены отмеченные формы других
+слов и неподходящие значения. Выбрано одно подходящее значение с предпочтением
+исходного написания; нормализованы пробелы, длинные тексты сокращены до 360
+символов с многоточием. Примеры и цитаты не включены. В каждой записи сохранена
+ссылка на статью, которая также даёт доступ к истории авторства. Итоги игры
+показывают ссылку, источник, лицензию и уведомление о сокращении.
+
+Выборка распространяется по CC BY-SA 4.0; при дальнейшем распространении
+сохраняйте атрибуцию, лицензию и описание изменений. Источник, SHA256 полного
+снимка и лицензии — [source.json](data/definitions/source.json), контрольная
+сумма выборки и покрытие ответов — [report.json](data/definitions/report.json).
+Исходная gzip-выгрузка хранится только в игнорируемом `data/sources` и не нужна
+для запуска приложения. Слова без толкования разрешены; ответ всё равно показывается.
 
 ## Музыка ost.mp3
 
@@ -61,6 +93,8 @@ SHA256: `8ec667484061fa644c9aabd0d8cd4946f5862e197271d31fae78aa460bc22ee6`.
 | Компонент | Лицензия | Источник |
 | --- | --- | --- |
 | React / React DOM | MIT | https://github.com/facebook/react |
+| React Router | MIT | https://github.com/remix-run/react-router |
+| TanStack Query | MIT | https://github.com/TanStack/query |
 | Vite | MIT | https://github.com/vitejs/vite |
 | TypeScript | Apache-2.0 | https://github.com/microsoft/TypeScript |
 | FastAPI | MIT | https://github.com/fastapi/fastapi |

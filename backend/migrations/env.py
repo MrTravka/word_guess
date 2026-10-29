@@ -5,6 +5,7 @@ from alembic import context
 from backend.app.config import Settings
 from backend.app.database import create_database
 from backend.app.models import Base
+from backend.app import game_models  # Register game tables in Alembic metadata.
 
 
 def run(connection):

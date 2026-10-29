@@ -1,0 +1,112 @@
+"""Transactional game transitions; never return internal answer snapshots early."""
+
+import secrets
+import time
+from uuid import uuid4
+
+from fastapi import HTTPException
+from sqlalchemy import insert, select, update
+
+from .definitions import definition_for
+from .game_models import Game, GameOperation, GameStart, Guess
+from .game_rules import MAX_ATTEMPTS, MODES, RULES_VERSION, evaluate_guess, keyboard_status, normalize_word, valid_word
+from .models import Word
+
+
+def owned_game(connection, game_id: str, user_id: int):
+    game = connection.execute(select(Game).where(Game.id == game_id, Game.user_id == user_id)).mappings().first()
+    if game is None:
+        raise HTTPException(404, "Партия не найдена.")
+    return game
+
+
+def public_game(connection, game) -> dict:
+    guesses = [dict(row) for row in connection.execute(select(Guess.number, Guess.word, Guess.marks).where(
+        Guess.game_id == game["id"],
+    ).order_by(Guess.number)).mappings()]
+    result = {
+        "id": game["id"], "mode": game["mode"], "length": MODES[game["mode"]],
+        "status": game["status"], "version": game["version"], "rules_version": game["rules_version"],
+        "max_attempts": MAX_ATTEMPTS, "guesses": guesses, "keyboard": keyboard_status(guesses),
+    }
+    if game["status"] != "active":
+        result["answer"] = {"word": game["display_answer"], "definition": definition_for(game["answer"])}
+    return result
+
+
+def create_game(connection, user_id: int, mode: str, operation_key: str) -> dict:
+    previous_request = connection.execute(select(Game).join(GameStart, GameStart.game_id == Game.id).where(
+        GameStart.user_id == user_id, GameStart.operation_key == operation_key,
+    )).mappings().first()
+    if previous_request:
+        if previous_request["mode"] != mode:
+            raise HTTPException(409, "Этот ключ уже использован для другого режима.")
+        return public_game(connection, previous_request)
+    active = connection.execute(select(Game).where(
+        Game.user_id == user_id, Game.mode == mode, Game.status == "active",
+    )).mappings().first()
+    if active:
+        connection.execute(insert(GameStart).values(user_id=user_id, operation_key=operation_key, game_id=active["id"]))
+        return public_game(connection, active)
+    words = connection.execute(select(Word.id, Word.canonical_word, Word.display_word).where(
+        Word.length == MODES[mode], Word.enabled_as_answer.is_(True),
+    )).mappings().all()
+    if not words:
+        raise HTTPException(503, "Словарь временно недоступен. Попробуйте позднее.")
+    word = secrets.choice(words)
+    game_id = str(uuid4())
+    connection.execute(insert(Game).values(
+        id=game_id, user_id=user_id, mode=mode, word_id=word["id"],
+        answer=word["canonical_word"], display_answer=word["display_word"],
+        rules_version=RULES_VERSION, status="active", version=0,
+        created_at=time.time_ns(), finished_at=None,
+    ))
+    connection.execute(insert(GameStart).values(user_id=user_id, operation_key=operation_key, game_id=game_id))
+    return public_game(connection, owned_game(connection, game_id, user_id))
+
+
+def mutate_game(connection, user_id: int, game_id: str, kind: str, data) -> dict:
+    game = owned_game(connection, game_id, user_id)
+    word = normalize_word(data.word) if kind == "guess" else None
+    key = str(data.operation_id)
+    replay = connection.execute(select(GameOperation).where(
+        GameOperation.game_id == game_id, GameOperation.operation_key == key,
+    )).mappings().first()
+    if replay:
+        if (replay["kind"], replay["word"], replay["expected_version"]) != (kind, word, data.version):
+            raise HTTPException(409, "Этот ключ уже использован для другого действия.")
+        return public_game(connection, game)
+    if game["status"] != "active":
+        raise HTTPException(409, "Партия уже завершена. Обновите её состояние.")
+    if data.version != game["version"]:
+        raise HTTPException(409, "Партия изменилась в другой вкладке. Состояние будет обновлено.")
+    if game["rules_version"] != RULES_VERSION:
+        raise HTTPException(409, "Для этой партии требуется другая версия правил.")
+    status = "surrendered" if kind == "surrender" else "active"
+    if kind == "guess":
+        length = MODES[game["mode"]]
+        if not valid_word(word, length):
+            raise HTTPException(422, f"Введите слово из {length} русских букв.")
+        guesses = connection.execute(select(Guess.word).where(Guess.game_id == game_id)).scalars().all()
+        if word in guesses:
+            raise HTTPException(422, "Это слово уже проверено. Попытка не потрачена.")
+        allowed = connection.execute(select(Word.id).where(
+            Word.canonical_word == word, Word.enabled_as_guess.is_(True),
+        )).first()
+        # A seed update must never make the current game's own answer invalid.
+        if allowed is None and word != game["answer"]:
+            raise HTTPException(422, "Такого существительного нет в словаре. Попытка не потрачена.")
+        number = len(guesses) + 1
+        if number > MAX_ATTEMPTS:
+            raise HTTPException(409, "Все попытки использованы.")
+        marks = evaluate_guess(game["answer"], word)
+        connection.execute(insert(Guess).values(game_id=game_id, number=number, word=word, marks=marks))
+        status = "won" if word == game["answer"] else "lost" if number == MAX_ATTEMPTS else "active"
+    connection.execute(insert(GameOperation).values(
+        game_id=game_id, operation_key=key, kind=kind, word=word, expected_version=data.version,
+    ))
+    connection.execute(update(Game).where(Game.id == game_id).values(
+        version=game["version"] + 1, status=status,
+        finished_at=int(time.time()) if status != "active" else None,
+    ))
+    return public_game(connection, owned_game(connection, game_id, user_id))

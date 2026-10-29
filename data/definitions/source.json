@@ -1,0 +1,32 @@
+{
+  "source": "Русский Викисловарь / Kaikki",
+  "authors": "Участники русского Викисловаря; извлечение Kaikki/Wiktextract — Tatu Ylonen и участники проекта",
+  "homepage": "https://ru.wiktionary.org/",
+  "download_page": "https://kaikki.org/ruwiktionary/rawdata.html",
+  "license_page": "https://kaikki.org/ruwiktionary/index.html",
+  "license": "CC-BY-SA-4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "dump_date": "2026-10-01",
+  "extracted_at": "2026-10-28",
+  "retrieved_at": "2026-10-29",
+  "wiktextract_revisions": ["19f9a30", "6f96ddf"],
+  "snapshot": {
+    "path": "data/sources/ruwiktionary-20261001.jsonl.gz",
+    "url": "https://kaikki.org/ruwiktionary/raw-wiktextract-data.jsonl.gz",
+    "bytes": 308932274,
+    "sha256": "626a342778b8ba3f0547586684449fa249455d9a6196d9d1038af6bfb03b39bf"
+  },
+  "license_asset": {
+    "path": "data/licenses/CC-BY-SA-4.0.txt",
+    "url": "https://raw.githubusercontent.com/spdx/license-list-data/31ba1a50e5397e00a304dbadc76531740e89ee48/text/CC-BY-SA-4.0.txt",
+    "sha256": "cde7883b9050a1104f4ac19a1572aafd6e5d7323b68351aaf51fbf4beba54966"
+  },
+  "changes": [
+    "Оставлены русские статьи существительных в нижнем регистре, совпадающие с морфологическими кандидатами OpenCorpora длиной 4/5/6",
+    "Исключены формы других слов и значения с отмеченной устаревшей, грубой или обсценной лексикой",
+    "Выбрано первое подходящее значение с предпочтением исходного написания OpenCorpora; ё/е объединены",
+    "Нормализованы пробелы; текст длиннее 360 символов сокращён по границе слова с многоточием",
+    "Примеры и цитаты не включены; ссылка на исходную статью сохранена для атрибуции",
+    "Наличие значения используется для отдельной автоматической сверки вводов, но не повышает слово в пул ответов"
+  ]
+}

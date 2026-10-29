@@ -2,14 +2,18 @@
   "name": "word-guess-frontend",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=22.12.0" },
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "dev": "vite --host 127.0.0.1 --strictPort",
     "build": "tsc --noEmit && vite build"
   },
   "dependencies": {
+    "@tanstack/react-query": "5.105.0",
     "react": "19.3.1",
-    "react-dom": "19.3.1"
+    "react-dom": "19.3.1",
+    "react-router-dom": "7.18.5"
   },
   "devDependencies": {
     "@types/node": "26.6.5",

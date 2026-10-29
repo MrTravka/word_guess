@@ -4,6 +4,8 @@ import { readFile, mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import net from 'node:net'
 import assert from 'node:assert/strict'
+import { execFile } from 'node:child_process'
+import { promisify } from 'node:util'
 
 const root = path.resolve(import.meta.dirname, '..')
 const directory = path.join(root, '.cache', `accounts-browser-${Date.now()}`)
@@ -109,10 +111,26 @@ try {
     input.dispatchEvent(new Event('input', { bubbles: true }));
   })()`)
   const background = () => evaluate('getComputedStyle(document.documentElement).backgroundColor')
+  const setAnswer = async (gameId, word) => {
+    // Test fixtures only: this database lives in the unique .cache test folder.
+    const source = `import sqlite3,sys
+c=sqlite3.connect(sys.argv[1])
+w=c.execute('SELECT id,display_word FROM words WHERE canonical_word=?',(sys.argv[3],)).fetchone()
+assert w
+r=c.execute("UPDATE games SET word_id=?,answer=?,display_answer=? WHERE id=? AND status='active' AND version=0",(w[0],sys.argv[3],w[1],sys.argv[2]))
+assert r.rowcount==1
+c.commit()
+c.close()`
+    await promisify(execFile)(python, ['-c', source, path.join(directory, 'test.db'), gameId, word], { windowsHide: true })
+  }
   await send('Page.enable')
   await send('Network.enable')
   await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1100, deviceScaleFactor: 1, mobile: false })
   await send('Page.navigate', { url })
+  if (process.argv.includes('--games')) {
+    const { gameScenario } = await import('./game_scenario.mjs')
+    await gameScenario({ evaluate, send, text, click, fill, setAnswer, directory, url, waitFor })
+  } else {
   await text('Создать аккаунт')
   console.log('Guest page ready')
   await fill('display_name', 'Алиса')
@@ -122,7 +140,7 @@ try {
   await text('Алиса, рады видеть вас.')
   console.log('Registration passed')
   assert.equal(await evaluate('document.querySelectorAll("article").length'), 4)
-  assert(await evaluate('Array.from(document.querySelectorAll("button")).find(b => b.textContent === "Играть").disabled'))
+  assert(await evaluate('Array.from(document.querySelectorAll("a")).some(a => a.textContent === "Играть" && a.getAttribute("href") === "/#modes-heading")'))
   assert.equal(await evaluate('document.cookie.includes("word_guess_session")'), false)
   assert.deepEqual(await evaluate('Object.keys(localStorage)'), ['word_guess_theme'])
   await click('Настройки')
@@ -176,8 +194,9 @@ try {
   await send('Network.setBlockedURLs', { urls: [] })
   await click('Повторить вход')
   await text('Создать аккаунт')
+  }
   assert(server.exitCode === null, server.log)
-  console.log(`PASS ${process.argv.includes('--dev') ? 'Vite proxy' : 'production'}: registration, login/error, HttpOnly, restore, themes before React, 360px, reduced motion, logout/revoke, network retry`)
+  console.log(`PASS ${process.argv.includes('--dev') ? 'Vite proxy' : 'production'}: ${process.argv.includes('--games') ? 'games scenario' : 'account scenario'}`)
   console.log(`Screenshots: ${directory}`)
 } catch (error) {
   if (send && socket?.readyState === WebSocket.OPEN) {

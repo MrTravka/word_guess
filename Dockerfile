@@ -12,8 +12,9 @@ WORKDIR /app
 COPY backend/requirements.lock /app/backend/requirements.lock
 RUN pip install --no-cache-dir --require-hashes -r /app/backend/requirements.lock
 COPY backend/ /app/backend/
-COPY scripts/verify_content.py scripts/fetch_content.py /app/scripts/
+COPY scripts/verify_content.py scripts/fetch_content.py scripts/prepare_definitions.py /app/scripts/
 COPY data/words/ /app/data/words/
+COPY data/definitions/ /app/data/definitions/
 COPY data/licenses/ /app/data/licenses/
 COPY data/audio/ /app/data/audio/
 COPY ost.mp3 THIRD_PARTY_NOTICES.md /app/

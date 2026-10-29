@@ -1,5 +1,5 @@
 {
-  "status": "research_not_release_dictionary",
+  "status": "game_dictionary_editorial_balance_pending",
   "source": "OpenCorpora:0.92:417150",
   "dictionary_metadata": {
     "language_code": "ru",
@@ -93,7 +93,9 @@
     "4": {
       "morphological_candidates": 1874,
       "reviewed_answers": 1119,
-      "pending_review": 638,
+      "allowed_guesses": 1581,
+      "guess_only": 462,
+      "pending_review": 176,
       "manually_rejected": 117,
       "target": 1000,
       "candidate_shortfall": 0,
@@ -106,7 +108,9 @@
     "5": {
       "morphological_candidates": 3967,
       "reviewed_answers": 1102,
-      "pending_review": 2862,
+      "allowed_guesses": 3492,
+      "guess_only": 2390,
+      "pending_review": 472,
       "manually_rejected": 3,
       "target": 1000,
       "candidate_shortfall": 0,
@@ -119,7 +123,9 @@
     "6": {
       "morphological_candidates": 5753,
       "reviewed_answers": 1502,
-      "pending_review": 4250,
+      "allowed_guesses": 4933,
+      "guess_only": 3431,
+      "pending_review": 819,
       "manually_rejected": 1,
       "target": 1000,
       "candidate_shortfall": 0,
@@ -132,7 +138,7 @@
   },
   "all_targets_met": true,
   "sha256": {
-    "candidates.csv": "747dd63365bf5c2b7c4a36c040cf190f4334ccfc7ce87854ebcf6f11261b7d1b",
-    "reviews.json": "82decd9d51ec434a03f82b4fa4047cdbb18e3f7f70ce82f2403ea3e190bbd447"
+    "candidates.csv": "f4b20e6045c79e33897a0143ce556c309e4b7457fd2117e2a4c63b0f04f1b5f4",
+    "reviews.json": "345656931978858870f64d1002809e2ddd29bd07c08616adfa4dec493ff5c04b"
   }
 }

@@ -4,15 +4,17 @@ import SettingsPanel from './SettingsPanel'
 import { useAccount } from './useAccount'
 import accountStyles from './Account.module.css'
 import styles from './App.module.css'
+import { Link, useLocation, useMatch } from 'react-router-dom'
+import GameScreen from './game/GameScreen'
 
 type Health = { status: 'ok'; database: 'ready'; version: string }
 type State = { status: 'loading' | 'error' } | { status: 'ready'; health: Health }
 
 const modes = [
-  { title: '4 буквы', description: 'Короткое слово. Большое начало.', number: '04' },
-  { title: '5 букв', description: 'Знакомая длина, новые открытия.', number: '05' },
-  { title: '6 букв', description: 'Чуть больше места для догадки.', number: '06' },
-  { title: 'Кампания', description: 'Слово за словом, уровень за уровнем.', number: '∞' },
+  { title: '4 буквы', description: 'Короткое слово. Большое начало.', number: '04', path: '/play/4' },
+  { title: '5 букв', description: 'Знакомая длина, новые открытия.', number: '05', path: '/play/5' },
+  { title: '6 букв', description: 'Чуть больше места для догадки.', number: '06', path: '/play/6' },
+  { title: 'Кампания', description: 'Слово за словом, уровень за уровнем.', number: '∞', path: null },
 ]
 
 export default function App() {
@@ -21,6 +23,14 @@ export default function App() {
   const identity = useAccount()
   const [settingsOpen, setSettingsOpen] = useState(false)
   const settingsButton = useRef<HTMLButtonElement>(null)
+  const location = useLocation()
+  const match = useMatch('/play/:mode')
+  const mode = match?.params.mode
+  const playing = mode === '4' || mode === '5' || mode === '6'
+
+  useEffect(() => {
+    if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView()
+  }, [location])
 
   function closeSettings() {
     setSettingsOpen(false)
@@ -49,9 +59,9 @@ export default function App() {
   return (
     <div className={styles.page}>
       <header className={styles.header}>
-        <a className={styles.brand} href="/" aria-label="word_guess — главная">
+        <Link className={styles.brand} to="/" aria-label="word_guess — главная">
           <span className={styles.logo} aria-hidden="true">с</span>word_guess
-        </a>
+        </Link>
         <nav className={styles.navigation} aria-label="Основная навигация">
           {identity.account && <span className={styles.stage}>{identity.account.user.display_name}</span>}
           <button ref={settingsButton} className={accountStyles.secondary}
@@ -61,7 +71,9 @@ export default function App() {
       </header>
       <main>
         {settingsOpen ? <SettingsPanel account={identity.account} theme={identity.theme}
-          saveTheme={identity.saveTheme} logout={identity.logout} close={closeSettings} /> : <>
+          saveTheme={identity.saveTheme} logout={identity.logout} close={closeSettings} />
+          : playing && identity.account ? <GameScreen key={`${identity.account.user.id}-${mode}`}
+            userId={identity.account.user.id} mode={mode} refreshAccount={identity.reload} /> : <>
         <section className={styles.hero} aria-labelledby="heading">
           <div>
             <p className={styles.eyebrow}>Маленькие открытия каждый день</p>
@@ -69,8 +81,7 @@ export default function App() {
             <p className={styles.intro}>{identity.account
               ? `${identity.account.user.display_name}, рады видеть вас. Ваш аккаунт готов к новым открытиям.`
               : 'Немного любопытства, знакомые буквы и радость верной догадки. Здесь начнётся ваша история слов.'}</p>
-            {identity.account ? <div><button className={accountStyles.primary} disabled aria-describedby="play-help">Играть</button>
-              <p id="play-help" className={accountStyles.help}>Партии появятся в следующем обновлении.</p></div>
+            {identity.account ? <Link className={accountStyles.primary} to="/#modes-heading">Играть</Link>
               : identity.ready && <a className={accountStyles.primary} href="#account">Войти или создать аккаунт</a>}
           </div>
           <div className={styles.tiles} aria-label="Слово «слово»">
@@ -90,18 +101,21 @@ export default function App() {
         </p>}
         <section className={styles.modes} aria-labelledby="modes-heading">
           <div className={styles.sectionTitle}>
-            <h2 id="modes-heading">Четыре пути к ответу</h2><span>Скоро в игре</span>
+            <h2 id="modes-heading">Четыре пути к ответу</h2><span>В своём ритме</span>
           </div>
           <div className={styles.cards}>
             {modes.map((mode) => <article className={styles.card} key={mode.title}>
               <span className={styles.modeNumber} aria-hidden="true">{mode.number}</span>
               <h3>{mode.title}</h3><p>{mode.description}</p>
+              {mode.path ? <Link className={accountStyles.primary} to={identity.account ? mode.path : '/#account'}
+                aria-label={`Открыть режим «${mode.title}»`}>Открыть</Link>
+                : <p className={accountStyles.help}>Скоро</p>}
             </article>)}
           </div>
         </section>
         <section className={styles.notice} aria-labelledby="notice-heading">
           <div><h2 id="notice-heading">Слово за словом — без спешки</h2>
-            <p>Аккаунт и оформление уже доступны. Четыре режима, партии и награды появятся в следующих обновлениях.</p>
+            <p>Три длины слова, шесть попыток и сколько угодно партий. Кампания и награды появятся позже.</p>
           </div>
           <div className={styles.connection} role="status" aria-live="polite">
             <span>{state.status === 'ready' ? '✓ Сервер доступен' : state.status === 'loading'

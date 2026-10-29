@@ -1,0 +1,194 @@
+.game {
+  max-width: 620px;
+  margin: 28px auto 42px;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.top h1 {
+  margin: 0;
+  font-size: 22px;
+  white-space: nowrap;
+}
+.top button, .top a {
+  padding: 10px 12px;
+}
+.start, .recovery, .result, .confirmation {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  padding: 22px;
+  margin: 24px 0;
+  line-height: 1.7;
+}
+.message {
+  min-height: 22px;
+  font-size: 14px;
+  text-align: center;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 16px 0;
+}
+.board {
+  display: grid;
+  gap: 7px;
+  max-width: 350px;
+  margin: auto;
+}
+.row {
+  display: grid;
+  gap: 7px;
+}
+.cell {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--surface);
+  font-size: clamp(23px, 5vw, 32px);
+  font-weight: 700;
+}
+.cell[data-filled='true']:not([data-mark]) {
+  border-color: var(--accent);
+}
+.cell small, .keys small {
+  position: absolute;
+  right: 4px;
+  bottom: 1px;
+  font-size: 10px;
+  line-height: 1;
+}
+[data-mark='correct'] {
+  background: var(--accent);
+  color: var(--surface);
+  border-color: var(--accent);
+}
+[data-mark='present'] {
+  background: #f4c567;
+  color: #352503;
+  border-color: #ab7511;
+}
+[data-mark='absent'] {
+  background: var(--soft);
+  color: var(--muted);
+  border-color: var(--line);
+}
+.reveal {
+  animation: reveal 260ms ease-out both;
+  animation-delay: var(--delay);
+}
+@keyframes reveal {
+  from { opacity: .3; transform: scaleY(.3); }
+  to { opacity: 1; transform: scaleY(1); }
+}
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 14px;
+  font-size: 11px;
+  color: var(--muted);
+  margin: 17px 0;
+}
+.keyboard {
+  display: grid;
+  gap: 7px;
+  margin: 20px -6px;
+}
+.keys {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+.keys button {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: 1 1 0;
+  max-width: 46px;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 0 5px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: inherit;
+  font-size: clamp(12px, 2.3vw, 16px);
+  font-weight: 600;
+  touch-action: manipulation;
+}
+.keys button[data-mark='correct'] {
+  background: var(--accent);
+  color: var(--surface);
+}
+.keys button[data-mark='present'] {
+  background: #f4c567;
+  color: #352503;
+}
+.keys button[data-mark='absent'] {
+  background: var(--soft);
+  color: var(--muted);
+}
+.keys .wideKey {
+  flex: 1.6 1 0;
+  max-width: 70px;
+  font-size: 11px;
+}
+.keys button:disabled {
+  opacity: 1;
+}
+.rules {
+  margin-top: 24px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.rules summary {
+  cursor: pointer;
+}
+.surrender {
+  display: block;
+  margin: 20px auto;
+  padding: 12px 20px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  text-decoration: underline;
+  font-size: 13px;
+}
+.confirmation button + button {
+  margin: 10px 0 0 8px;
+}
+.result h2 {
+  margin: 0 0 18px;
+  font-size: 24px;
+}
+.answer {
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.definition {
+  line-height: 1.75;
+}
+.source {
+  font-size: 12px;
+  color: var(--muted);
+}
+.source a {
+  text-decoration: underline;
+}
+@media (max-width: 520px) {
+  .game { margin-top: 20px; }
+  .board { max-width: 290px; gap: 5px; }
+  .row { gap: 5px; }
+  .top h1 { font-size: 18px; }
+  .top button, .top a { font-size: 12px; padding: 9px; }
+  .confirmation button + button { margin-left: 0; }
+}

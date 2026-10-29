@@ -1,0 +1,24 @@
+import { useEffect, useRef } from 'react'
+import type { Game } from './types'
+import shared from '../Account.module.css'
+import styles from './Game.module.css'
+
+export default function GameResult({ game, busy, start }: { game: Game; busy: boolean; start: () => void }) {
+  const heading = useRef<HTMLHeadingElement>(null)
+  useEffect(() => { heading.current?.focus() }, [game.id])
+  const definition = game.answer?.definition
+  return <section className={styles.result} aria-labelledby="result-heading">
+    <h2 id="result-heading" tabIndex={-1} ref={heading}>
+      {game.status === 'won' ? 'Слово найдено!' : game.status === 'surrendered' ? 'Партия завершена' : 'В этот раз не получилось'}
+    </h2>
+    <p>Загаданное слово: <strong className={styles.answer}>{game.answer?.word}</strong></p>
+    {definition ? <>
+      <p className={styles.definition}>{definition.text}</p>
+      <p className={styles.source}><a href={definition.url} target="_blank" rel="noreferrer">{definition.source}</a>
+        {' · '}<a href={definition.license_url} target="_blank" rel="noreferrer">{definition.license}</a>
+        {' · '}выбрано одно значение, текст сокращён</p>
+    </> : <p className={styles.source}>Для этого слова толкование пока не добавлено.</p>}
+    <p className={styles.source}>Использовано попыток: {game.guesses.length} из {game.max_attempts}.</p>
+    <button className={shared.primary} disabled={busy} onClick={start}>Следующее слово</button>
+  </section>
+}

@@ -45,7 +45,11 @@ def validate_rows(rows, reviews):
         require(row["review_status"] == decision, f"Review mismatch: {word}")
         enabled = "1" if decision == "answer" else "0"
         require(row["enabled_as_answer"] == enabled, f"Unreviewed answer: {word}")
-        require(row["enabled_as_guess"] == enabled, f"Unreviewed guess: {word}")
+        guess_enabled = "1" if decision in {"answer", "guess"} else "0"
+        require(row["enabled_as_guess"] == guess_enabled, f"Unreviewed guess: {word}")
+        if decision == "guess":
+            require(review.get("reason") and review.get("evidence") == "Wiktionary/Kaikki:2026-10-01",
+                    f"Missing guess evidence: {word}")
         if decision == "answer":
             require(review.get("reason"), f"Missing review reason: {word}")
             difficulty = int(row["difficulty"])
@@ -58,6 +62,7 @@ def validate_rows(rows, reviews):
             require(not row["difficulty"] and row["familiarity"] == "unreviewed",
                     f"Unexpected unapproved difficulty: {word}")
         counts[len(word)]["candidates"] += 1
+        counts[len(word)]["allowed_guesses"] += int(guess_enabled)
         counts[len(word)][decision] += 1
         seen.add(word)
     require(set(reviews) <= seen, "Reviews refer to absent source words")
@@ -79,7 +84,8 @@ def verify(require_target=False):
         recorded = report["by_length"][str(length)]
         for field, key in (("morphological_candidates", "candidates"),
                            ("reviewed_answers", "answers"), ("pending_review", "pending"),
-                           ("manually_rejected", "reject")):
+                           ("manually_rejected", "reject"), ("allowed_guesses", "allowed_guesses"),
+                           ("guess_only", "guess")):
             require(recorded[field] == actual[key], f"Count mismatch: {length}/{field}")
         require(recorded["approved_shortfall"] == max(0, 1000 - actual["answers"]),
                 f"Wrong shortfall: {length}")
@@ -101,6 +107,13 @@ def verify(require_target=False):
     require(audio["permission"], "Missing music permission record")
     fetch({"path": audio["path"], "sha256": audio["sha256"]}, check_only=True)
     require((ROOT / "THIRD_PARTY_NOTICES.md").is_file(), "Missing attribution")
+    from prepare_definitions import verify_definitions
+    verify_definitions()
+    definitions = read_json(ROOT / "data/definitions/entries.json")
+    for word, review in reviews.items():
+        if review["decision"] == "guess":
+            require(word in definitions and review.get("evidence_url") == definitions[word]["url"],
+                    f"Unconfirmed guess-only noun: {word}")
     print("Content, licenses and audio: OK")
 
 

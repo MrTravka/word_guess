@@ -82,7 +82,7 @@ def load_reviews(candidates):
     for word, review in reviews.items():
         if word != normalize(word) or word not in candidates:
             raise ValueError(f"Review is not a normalized source candidate: {word}")
-        if review["decision"] not in {"answer", "reject"} or not review["reason"]:
+        if review["decision"] not in {"answer", "guess", "reject"} or not review["reason"]:
             raise ValueError(f"Invalid review: {word}")
         if review["decision"] == "answer":
             if review["difficulty"] not in (1, 2, 3):
@@ -104,7 +104,7 @@ def make_rows(candidates, reviews):
             "difficulty": review.get("difficulty", ""),
             "familiarity": review.get("familiarity", "unreviewed"),
             "source": SOURCE, "enabled_as_answer": int(decision == "answer"),
-            "enabled_as_guess": int(decision == "answer"),
+            "enabled_as_guess": int(decision in {"answer", "guess"}),
             "review_status": decision, "tags": " | ".join(sorted(item["tags"])),
             "paradigm_ids": " ".join(map(str, sorted(item["ids"]))),
         })
@@ -126,6 +126,8 @@ def make_report(dictionary, candidates, counts, tags, rows, csv_bytes):
         approved = sum(row["enabled_as_answer"] for row in group)
         by_length[str(length)] = {
             "morphological_candidates": len(group), "reviewed_answers": approved,
+            "allowed_guesses": sum(row["enabled_as_guess"] for row in group),
+            "guess_only": sum(row["review_status"] == "guess" for row in group),
             "pending_review": sum(row["review_status"] == "pending" for row in group),
             "manually_rejected": sum(row["review_status"] == "reject" for row in group),
             "target": 1000, "candidate_shortfall": max(0, 1000 - len(group)),
@@ -136,7 +138,7 @@ def make_report(dictionary, candidates, counts, tags, rows, csv_bytes):
         }
     spellings = sum(len(item["spellings"]) for item in candidates.values())
     return {
-        "status": "research_not_release_dictionary",
+        "status": "game_dictionary_editorial_balance_pending",
         "source": SOURCE,
         "dictionary_metadata": dictionary.meta,
         "tool_versions": PACKAGES,
