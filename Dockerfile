@@ -18,6 +18,7 @@ COPY data/definitions/ /app/data/definitions/
 COPY data/licenses/ /app/data/licenses/
 COPY data/audio/ /app/data/audio/
 COPY ost.mp3 THIRD_PARTY_NOTICES.md /app/
+RUN python scripts/verify_content.py --require-target
 COPY --from=frontend /build/frontend/dist /app/frontend/dist
 RUN mkdir -p /data
 EXPOSE 8000

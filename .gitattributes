@@ -1,6 +1,7 @@
 # Keep checksummed content identical on Windows and Linux checkouts.
 data/words/*.csv text eol=lf
 data/words/*.json text eol=lf
+data/definitions/*.json text eol=lf
 data/audio/*.json text eol=lf
 data/balance/*.json text eol=lf
 data/licenses/*.txt -text
