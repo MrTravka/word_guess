@@ -67,6 +67,8 @@ export default function SettingsPanel({ account, theme, saveTheme, logout, close
     {error && <p role="alert" className={styles.error}>{error}</p>}
     <AudioSettings state={audio} signedIn={Boolean(account)} />
     <InstallSettings state={pwa} />
+    <p className={styles.help}><a href="https://www.flaticon.com/ru/free-icon/letter-c_5379114"
+      target="_blank" rel="noopener noreferrer">Иконка Letter C — Flaticon</a>. Цвет адаптирован для «Словохода».</p>
     {account && <button className={styles.secondary} disabled={busy} onClick={() => { void leave() }}>Выйти из аккаунта</button>}
   </section>
 }

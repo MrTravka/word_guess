@@ -75,7 +75,7 @@ export default function App() {
     <div className={styles.page}>
       <header className={styles.header}>
         <Link className={styles.brand} to="/" aria-label="Словоход — главная" onClick={() => setSettingsOpen(false)}>
-          <span className={styles.logo} aria-hidden="true">с</span>Словоход
+          <span className={styles.logo} aria-hidden="true" />Словоход
         </Link>
         <nav className={styles.navigation} aria-label="Основная навигация">
           {identity.account && <span className={styles.stage}>{identity.account.user.display_name}</span>}

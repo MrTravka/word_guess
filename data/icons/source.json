@@ -1,0 +1,18 @@
+{
+  "title": "Letter C",
+  "source_url": "https://www.flaticon.com/ru/free-icon/letter-c_5379114",
+  "download_url": "https://cdn-icons-png.flaticon.com/512/5379/5379114.png",
+  "source_sha256": "71c735dfa0f5a705fa56e982a19f98d81ac75c1a0cb695598643fdd16f5fc3aa",
+  "license": "Flaticon License",
+  "license_url": "https://www.flaticon.com/legal",
+  "license_confirmed_by_owner": "Бесплатно для личных и коммерческих целей с указанием авторства.",
+  "review_date": "2026-10-29",
+  "author": "Не предоставлен владельцем; указан на странице источника, недоступной автоматическому чтению (HTTP 403).",
+  "attribution": "Иконка Letter C — Flaticon; ссылка на страницу исходной иконки в настройках приложения.",
+  "master": "data/icons/letter-c-master.png",
+  "master_sha256": "985bb9f87db07f71869cd8b1e62ba8d7913156feab38b160cd5f0527d02333b3",
+  "modification": "Перекраска встроенным imagegen в зелёный акцент #166534 с прозрачным фоном; локальная упаковка в размеры иконок. Исходный PNG использован как edit target.",
+  "prompt": "Preserve the Letter C silhouette, proportions, placement and transparency; replace black ink with forest green #166534. No new elements, shadows or decoration.",
+  "packaging": "python scripts/generate_icons.py; 64 px header mask; 180/192/512 px and maskable icons on #e6f1e8, mark scale 78%.",
+  "ownership": "Внешний материал; исключительные права и регистрация товарного знака не заявляются. Лицензия Flaticon сохраняет силу для производных изображений."
+}

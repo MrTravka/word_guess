@@ -79,6 +79,7 @@ def test_public_pwa_assets_are_explicit_and_audio_supports_ranges(settings, tmp_
     (frontend / "manifest.webmanifest").write_text('{"name":"word_guess"}', encoding="utf-8")
     (frontend / "audio/ost.mp3").write_bytes(b"test audio range")
     (frontend / "icons/icon-192.png").write_bytes(b"icon")
+    (frontend / "icons/brand-c.png").write_bytes(b"brand icon")
     # Even a mistakenly placed extra file cannot become a public route.
     (frontend / "audio/private.db").write_bytes(b"not public")
     with TestClient(create_app(settings, frontend_dist=frontend)) as public:
@@ -88,6 +89,7 @@ def test_public_pwa_assets_are_explicit_and_audio_supports_ranges(settings, tmp_
         assert worker.headers["cache-control"] == "no-cache"
         assert public.get("/manifest.webmanifest").headers["content-type"].startswith("application/manifest+json")
         assert public.get("/index.html").text == "<main>public shell</main>"
+        assert public.get("/icons/brand-c.png").content == b"brand icon"
         audio = public.get("/audio/ost.mp3", headers={"Range": "bytes=0-3"})
         assert audio.status_code == 206 and audio.content == b"test"
         assert audio.headers["content-type"] == "audio/mpeg"
@@ -97,7 +99,7 @@ def test_public_pwa_assets_are_explicit_and_audio_supports_ranges(settings, tmp_
 
 def test_distributed_audio_is_unchanged_and_icons_have_installable_sizes():
     assert hashlib.sha256((ROOT / "ost.mp3").read_bytes()).digest() == hashlib.sha256((ROOT / "frontend/public/audio/ost.mp3").read_bytes()).digest()
-    for name, size in (("icon-180", 180), ("icon-192", 192), ("icon-512", 512), ("maskable-512", 512)):
+    for name, size in (("brand-c", 64), ("icon-180", 180), ("icon-192", 192), ("icon-512", 512), ("maskable-512", 512)):
         data = (ROOT / f"frontend/public/icons/{name}.png").read_bytes()
         assert data[:8] == b"\x89PNG\r\n\x1a\n"
         assert struct.unpack("!II", data[16:24]) == (size, size)

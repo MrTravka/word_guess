@@ -19,15 +19,11 @@
   letter-spacing: -.6px;
 }
 .logo {
-  display: grid;
-  place-items: center;
+  flex: 0 0 33px;
   width: 33px;
   height: 33px;
-  border-radius: 9px;
   background: var(--accent);
-  color: var(--surface);
-  font-size: 27px;
-  line-height: 1;
+  mask: url('/icons/brand-c.png') center / contain no-repeat;
 }
 .stage {
   font-size: 13px;

@@ -7,7 +7,7 @@ export default function pwa(): Plugin {
     name: 'word-guess-pwa', apply: 'build',
     generateBundle(_options, bundle) {
       const files = Object.keys(bundle).filter((name) => name.startsWith('assets/')).sort()
-      const publicFiles = ['manifest.webmanifest', 'icons/icon-180.png', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/maskable-512.png']
+      const publicFiles = ['manifest.webmanifest', 'icons/brand-c.png', 'icons/icon-180.png', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/maskable-512.png']
       const hash = createHash('sha256')
       hash.update(readFileSync(new URL('../index.html', import.meta.url)))
       for (const name of files) {

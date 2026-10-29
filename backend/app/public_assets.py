@@ -12,7 +12,7 @@ def register_public_assets(app, frontend_dist: Path):
         "/sw.js": "text/javascript",
         "/index.html": "text/html",
         "/audio/ost.mp3": "audio/mpeg",
-        **{f"/icons/{name}.png": "image/png" for name in ("icon-180", "icon-192", "icon-512", "maskable-512")},
+        **{f"/icons/{name}.png": "image/png" for name in ("brand-c", "icon-180", "icon-192", "icon-512", "maskable-512")},
     }
     def register(url, media_type):
         path = frontend_dist / url.lstrip("/")
