@@ -127,7 +127,10 @@ c.close()`
   await send('Network.enable')
   await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1100, deviceScaleFactor: 1, mobile: false })
   await send('Page.navigate', { url })
-  if (process.argv.includes('--games')) {
+  if (process.argv.includes('--economy')) {
+    const { economyScenario } = await import('./economy_scenario.mjs')
+    await economyScenario({ evaluate, send, text, click, fill, setAnswer, directory, url, waitFor })
+  } else if (process.argv.includes('--games')) {
     const { gameScenario } = await import('./game_scenario.mjs')
     await gameScenario({ evaluate, send, text, click, fill, setAnswer, directory, url, waitFor })
   } else {
@@ -196,7 +199,8 @@ c.close()`
   await text('Создать аккаунт')
   }
   assert(server.exitCode === null, server.log)
-  console.log(`PASS ${process.argv.includes('--dev') ? 'Vite proxy' : 'production'}: ${process.argv.includes('--games') ? 'games scenario' : 'account scenario'}`)
+  const scenario = process.argv.includes('--economy') ? 'economy' : process.argv.includes('--games') ? 'games' : 'account'
+  console.log(`PASS ${process.argv.includes('--dev') ? 'Vite proxy' : 'production'}: ${scenario} scenario`)
   console.log(`Screenshots: ${directory}`)
 } catch (error) {
   if (send && socket?.readyState === WebSocket.OPEN) {

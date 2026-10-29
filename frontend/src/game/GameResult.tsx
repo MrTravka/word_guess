@@ -19,6 +19,8 @@ export default function GameResult({ game, busy, start }: { game: Game; busy: bo
         {' · '}выбрано одно значение, текст сокращён</p>
     </> : <p className={styles.source}>Для этого слова толкование пока не добавлено.</p>}
     <p className={styles.source}>Использовано попыток: {game.guesses.length} из {game.max_attempts}.</p>
+    {game.reward && <p className={styles.earned}>Награда: <strong>{game.reward.points} очков</strong> и <strong>{game.reward.coins} монет</strong>.
+      {' '}Использовано подсказок: {game.reward.hints}.</p>}
     <button className={shared.primary} disabled={busy} onClick={start}>Следующее слово</button>
   </section>
 }

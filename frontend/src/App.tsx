@@ -6,6 +6,8 @@ import accountStyles from './Account.module.css'
 import styles from './App.module.css'
 import { Link, useLocation, useMatch } from 'react-router-dom'
 import GameScreen from './game/GameScreen'
+import { useEconomy } from './economy/useEconomy'
+import ShopScreen from './economy/ShopScreen'
 
 type Health = { status: 'ok'; database: 'ready'; version: string }
 type State = { status: 'loading' | 'error' } | { status: 'ready'; health: Health }
@@ -27,6 +29,7 @@ export default function App() {
   const match = useMatch('/play/:mode')
   const mode = match?.params.mode
   const playing = mode === '4' || mode === '5' || mode === '6'
+  const economy = useEconomy(identity.account?.user.id)
 
   useEffect(() => {
     if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView()
@@ -64,6 +67,8 @@ export default function App() {
         </Link>
         <nav className={styles.navigation} aria-label="Основная навигация">
           {identity.account && <span className={styles.stage}>{identity.account.user.display_name}</span>}
+          {identity.account && <Link className={styles.wallet} to="/shop" aria-label={`Магазин, баланс ${economy.data?.coins ?? 'загружается'} монет`}>
+            {economy.data?.coins ?? '…'} <span>монет</span></Link>}
           <button ref={settingsButton} className={accountStyles.secondary}
             disabled={!identity.ready} aria-expanded={settingsOpen}
             onClick={() => setSettingsOpen((open) => !open)}>Настройки</button>
@@ -72,6 +77,7 @@ export default function App() {
       <main>
         {settingsOpen ? <SettingsPanel account={identity.account} theme={identity.theme}
           saveTheme={identity.saveTheme} logout={identity.logout} close={closeSettings} />
+          : location.pathname === '/shop' && identity.account ? <ShopScreen userId={identity.account.user.id} />
           : playing && identity.account ? <GameScreen key={`${identity.account.user.id}-${mode}`}
             userId={identity.account.user.id} mode={mode} refreshAccount={identity.reload} /> : <>
         <section className={styles.hero} aria-labelledby="heading">
@@ -115,7 +121,7 @@ export default function App() {
         </section>
         <section className={styles.notice} aria-labelledby="notice-heading">
           <div><h2 id="notice-heading">Слово за словом — без спешки</h2>
-            <p>Три длины слова, шесть попыток и сколько угодно партий. Кампания и награды появятся позже.</p>
+            <p>Три длины слова, шесть попыток и сколько угодно партий. Побеждайте, получайте монеты и выбирайте подсказки.</p>
           </div>
           <div className={styles.connection} role="status" aria-live="polite">
             <span>{state.status === 'ready' ? '✓ Сервер доступен' : state.status === 'loading'

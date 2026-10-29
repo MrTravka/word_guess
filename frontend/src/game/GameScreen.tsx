@@ -6,6 +6,7 @@ import { useGame } from './useGame'
 import GameBoard from './GameBoard'
 import GameKeyboard from './GameKeyboard'
 import GameResult from './GameResult'
+import HintPanel from './HintPanel'
 import shared from '../Account.module.css'
 import styles from './Game.module.css'
 
@@ -57,10 +58,13 @@ export default function GameScreen({ userId, mode, refreshAccount }: Props) {
     if (locked || !game) return
     setNotice('')
     if (key === 'Enter') {
-      if (draft.length !== game.length) setNotice(`Нужно ${game.length} букв.`)
+      if (draft.length !== game.length || draft.includes(' ')) setNotice(`Нужно ${game.length} букв.`)
       else void state.action('guess', draft)
-    } else if (key === 'Backspace') setDraft((value) => value.slice(0, -1))
-    else if (/^[а-яё]$/i.test(key)) setDraft((value) => (value + key.toLowerCase().replace('ё', 'е')).slice(0, game.length))
+    } else if (key === 'Backspace') setDraft((value) => value.trimEnd().slice(0, -1))
+    else if (/^[а-яё]$/i.test(key)) setDraft((value) => {
+      const letter = key.toLowerCase().replace('ё', 'е')
+      return value.includes(' ') ? value.replace(' ', letter) : (value + letter).slice(0, game.length)
+    })
   }
 
   useEffect(() => {
@@ -104,12 +108,18 @@ export default function GameScreen({ userId, mode, refreshAccount }: Props) {
       <button className={shared.secondary} disabled={busy} onClick={() => { void state.retry() }}>Повторить действие</button>
     </div>}
     {game && <>
+      {Object.keys(game.hints.revealed).length > 0 && <div className={styles.revealed} aria-label="Открытые подсказками позиции">
+        <p>{Array.from({ length: game.length }, (_, index) => game.hints.revealed[String(index)]?.toUpperCase() ?? '·').join(' ')}</p>
+        <button className={shared.secondary} disabled={locked} onClick={() => setDraft((value) => Array.from({ length: game.length },
+          (_, index) => value[index] || game.hints.revealed[String(index)] || ' ').join(''))}>Подставить открытые буквы</button>
+      </div>}
       <GameBoard game={game} draft={draft} revealRow={revealRow} />
       <div className={styles.legend} aria-label="Обозначения клеток">
         <span>● На месте</span><span>↔ В другом месте</span><span>× Нет совпадения</span>
       </div>
       {game.status === 'active' ? <>
         <GameKeyboard game={game} disabled={locked} press={press} />
+        <HintPanel key={game.id} game={game} disabled={busy || pending || revealing || confirming} apply={state.hint} />
         <details className={styles.rules}><summary>Как играть</summary>
           <p>Введите существительное в начальной форме и нажмите «Ввод» или Enter. Буквы с клавиатуры должны быть русскими; Ё принимается как Е.</p>
           <p>Неизвестное слово, неверная длина и повтор не тратят попытку. Каждая повторяющаяся буква учитывается по числу вхождений в ответ.</p>

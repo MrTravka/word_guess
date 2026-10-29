@@ -11,6 +11,7 @@ from sqlalchemy import delete, insert, select, update
 from sqlalchemy.exc import IntegrityError
 
 from .models import AccountSession, User, UserSettings
+from .economy_service import initialize_account
 from .security import (
     COOKIE, DUMMY_HASH, PASSWORDS, create_session, current_user, session_hash,
     set_session_cookie, verify_password,
@@ -73,6 +74,7 @@ def register(data: Registration, request: Request, response: Response):
                 password_hash=password_hash, created_at=int(time.time()),
             )).inserted_primary_key[0]
             connection.execute(insert(UserSettings).values(user_id=user_id, theme="system"))
+            initialize_account(connection, user_id)
             token = create_session(connection, request, user_id)
             result = account_result(connection, user_id)
     except IntegrityError:

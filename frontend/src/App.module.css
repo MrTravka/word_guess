@@ -40,7 +40,15 @@
 .navigation {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 12px;
+}
+.wallet {
+  color: var(--accent);
+  font-size: 14px;
+  white-space: nowrap;
+}
+.wallet span {
+  font-size: 11px;
 }
 .hero {
   display: grid;
@@ -228,6 +236,8 @@
   }
   .header {
     padding: 22px 0;
+    gap: 16px;
+    flex-wrap: wrap;
   }
   .stage {
     display: none;

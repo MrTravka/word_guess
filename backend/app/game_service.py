@@ -11,6 +11,9 @@ from .definitions import definition_for
 from .game_models import Game, GameOperation, GameStart, Guess
 from .game_rules import MAX_ATTEMPTS, MODES, RULES_VERSION, evaluate_guess, keyboard_status, normalize_word, valid_word
 from .models import Word
+from .economy_models import GameReward
+from .economy_service import record_result, wallet_state
+from .hint_logic import hint_state
 
 
 def owned_game(connection, game_id: str, user_id: int):
@@ -29,6 +32,16 @@ def public_game(connection, game) -> dict:
         "status": game["status"], "version": game["version"], "rules_version": game["rules_version"],
         "max_attempts": MAX_ATTEMPTS, "guesses": guesses, "keyboard": keyboard_status(guesses),
     }
+    result["economy"] = wallet_state(connection, game["user_id"])
+    hints = hint_state(connection, game, guesses, result["economy"]["inventory"])
+    result["hints"] = hints
+    for use in hints["uses"]:
+        for letter in use["removed"]:
+            result["keyboard"].setdefault(letter, "absent")
+        if use["letter"] is not None:
+            result["keyboard"][use["letter"]] = "correct"
+    saved = connection.execute(select(GameReward.points, GameReward.coins, GameReward.hints).where(GameReward.game_id == game["id"])).mappings().first()
+    result["reward"] = dict(saved) if saved else None
     if game["status"] != "active":
         result["answer"] = {"word": game["display_answer"], "definition": definition_for(game["answer"])}
     return result
@@ -109,4 +122,6 @@ def mutate_game(connection, user_id: int, game_id: str, kind: str, data) -> dict
         version=game["version"] + 1, status=status,
         finished_at=int(time.time()) if status != "active" else None,
     ))
-    return public_game(connection, owned_game(connection, game_id, user_id))
+    finished = owned_game(connection, game_id, user_id)
+    record_result(connection, finished)
+    return public_game(connection, finished)

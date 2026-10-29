@@ -58,7 +58,7 @@ class GameOperation(Base):
     __tablename__ = "game_operations"
     __table_args__ = (
         UniqueConstraint("game_id", "operation_key", name="game_operation_key"),
-        CheckConstraint("kind IN ('guess', 'surrender')", name="game_operation_kind"),
+        CheckConstraint("kind IN ('guess', 'surrender', 'hint')", name="game_operation_kind"),
     )
 
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -67,3 +67,5 @@ class GameOperation(Base):
     kind: Mapped[str] = mapped_column(String(9))
     word: Mapped[str | None] = mapped_column(String(6))
     expected_version: Mapped[int]
+    hint_kind: Mapped[str | None] = mapped_column(String(15))
+    position: Mapped[int | None]

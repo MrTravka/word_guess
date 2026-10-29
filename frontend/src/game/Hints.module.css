@@ -1,0 +1,73 @@
+.hints {
+  border-top: 1px solid var(--line);
+  margin-top: 26px;
+  padding-top: 20px;
+}
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.top h2 {
+  margin: 0;
+  font-size: 18px;
+}
+.top a {
+  color: var(--accent);
+  font-size: 13px;
+  text-decoration: underline;
+}
+.impact, .option p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+.options {
+  display: grid;
+  gap: 12px;
+  margin: 20px 0;
+}
+.option p {
+  margin: 6px 0 0;
+}
+.confirm {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  padding: 20px;
+  margin: 18px 0;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.confirm h3 {
+  margin: 0 0 12px;
+}
+.confirm button + button {
+  margin-left: 10px;
+}
+.positions {
+  border: 0;
+  padding: 0;
+  margin: 16px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.positions legend {
+  margin-bottom: 12px;
+}
+.positions label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+}
+.positions input {
+  accent-color: var(--accent);
+}
+@media (max-width: 520px) {
+  .confirm button { width: 100%; }
+  .confirm button + button { margin: 10px 0 0; }
+}

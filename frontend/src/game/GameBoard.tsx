@@ -18,7 +18,7 @@ export default function GameBoard({ game, draft, revealRow }: Props) {
         {Array.from({ length: game.length }, (_, column) => {
           const mark = guess?.marks[column]
           return <span key={column} aria-hidden="true"
-            data-mark={mark} data-filled={Boolean(letters[column])}
+            data-mark={mark} data-filled={Boolean(letters[column]?.trim())}
             className={`${styles.cell} ${row === revealRow && mark ? styles.reveal : ''}`}
             style={{ '--delay': `${column * 85}ms` } as CSSProperties}>
             {letters[column]?.toUpperCase()}

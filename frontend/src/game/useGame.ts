@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { api, ApiError } from '../api'
 import type { Game, Mode } from './types'
+import type { HintKind } from '../economy/types'
 
 type Operation = { path: string; body: Record<string, unknown> }
 
@@ -24,9 +25,11 @@ export function useGame(userId: number, mode: Mode) {
     setBusy(true)
     setMessage('')
     await client.cancelQueries({ queryKey: key })
+    await client.cancelQueries({ queryKey: ['inventory', userId] })
     try {
       const game = await api<Game>(operation.path, 'POST', operation.body)
       client.setQueryData(key, game)
+      client.setQueryData(['inventory', userId], game.economy)
       setPending(null)
       return true
     } catch (cause) {
@@ -59,9 +62,18 @@ export function useGame(userId: number, mode: Mode) {
     })
   }
 
+  function hint(kind: HintKind, position?: number) {
+    const game = query.data
+    if (!game || pending) return Promise.resolve(false)
+    return send({
+      path: `/games/${game.id}/hints`,
+      body: { operation_id: crypto.randomUUID(), version: game.version, kind, ...(position === undefined ? {} : { position }) },
+    })
+  }
+
   return {
     game: query.data, loading: query.isPending, refreshing: query.isFetching, error: query.error,
-    busy, pending: pending !== null, message, unauthorized, start, action,
+    busy, pending: pending !== null, message, unauthorized, start, action, hint,
     retry: () => pending ? send(pending) : query.refetch(),
   }
 }

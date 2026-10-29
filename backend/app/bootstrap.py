@@ -8,6 +8,7 @@ from sqlalchemy.engine import Engine
 from .config import ROOT, Settings
 from .database import create_database
 from .seed import seed_words
+from .economy_service import seed_economy
 
 def migration_config() -> Config:
     return Config(str(ROOT / "backend" / "alembic.ini"))
@@ -35,6 +36,7 @@ def bootstrap(settings: Settings | None = None) -> None:
     try:
         migrate(engine)
         imported = seed_words(engine)
+        seed_economy(engine)
         print(f"Database ready; imported {imported} dictionary rows", flush=True)
     finally:
         engine.dispose()

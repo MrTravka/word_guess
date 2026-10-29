@@ -18,6 +18,8 @@ from .version import VERSION
 from .accounts import router as accounts_router
 from .security import AuthLimiter
 from .games import router as games_router
+from .economy import router as economy_router
+from .hints import router as hints_router
 
 
 def readiness(engine: Engine, revision_head: str) -> bool:
@@ -67,10 +69,14 @@ def create_app(settings: Settings | None = None, frontend_dist: Path = FRONTEND_
         # Pydantic errors may include the submitted password; never echo inputs.
         if request.url.path.startswith("/api/games"):
             return JSONResponse({"detail": "Некорректный запрос партии: проверьте режим, слово, версию и ключ действия."}, status_code=422)
+        if request.url.path.startswith("/api/shop"):
+            return JSONResponse({"detail": "Некорректная покупка: выберите предмет и новый ключ операции."}, status_code=422)
         return JSONResponse({"detail": "Проверьте данные: логин 3–32 буквы/цифры/_, пароль 8–128 символов, имя 1–40 символов; тема — системная, светлая или тёмная."}, status_code=422)
 
     app.include_router(accounts_router)
     app.include_router(games_router)
+    app.include_router(economy_router)
+    app.include_router(hints_router)
 
     @app.get("/api/health")
     def health():

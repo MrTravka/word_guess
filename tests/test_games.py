@@ -14,10 +14,11 @@ from backend.app.game_models import Game, GameOperation, GameStart, Guess
 from backend.app.main import create_app
 from backend.app.models import DictionaryVersion, Word
 from backend.app.security import COOKIE
+from backend.app.economy_service import seed_economy
 
 HEADERS = {"X-Requested-With": "word_guess", "Origin": "http://testserver"}
 WORDS = {"4": ["елка", "аист", "мама", "тест", "кофе", "рука", "лиса", "мука"],
-         "5": ["касса", "маска", "сосна", "слово", "парта", "лампа", "банка", "атака"],
+         "5": ["касса", "маска", "сосна", "слово", "парта", "лампа", "банка", "атака", "каска", "масса"],
          "6": ["ворона", "машина", "голова", "собака", "корова", "лопата", "береза", "молоко"]}
 
 
@@ -227,4 +228,5 @@ def test_game_migration_preserves_accounts_and_settings(client, app):
         command.downgrade(config, "0002_accounts")
     migrate(app.state.engine)
     assert client.get("/api/auth/me").json()["user"]["login"] == "player"
+    seed_economy(app.state.engine)
     assert start(client)["status"] == "active"
