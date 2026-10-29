@@ -8,6 +8,8 @@ import ChestOdds from './ChestOdds'
 import ChestReel from './ChestReel'
 import shared from '../Account.module.css'
 import styles from './Collection.module.css'
+import { audioEngine } from '../audio/engine'
+import { useUpdateGuard } from '../pwa/activity'
 
 export default function ChestScreen({ userId, chestId }: { userId: number; chestId: string }) {
   const client = useQueryClient()
@@ -16,6 +18,7 @@ export default function ChestScreen({ userId, chestId }: { userId: number; chest
   const [message, setMessage] = useState('')
   const [animating, setAnimating] = useState(false)
   const lock = useRef(false)
+  useUpdateGuard(busy || pending !== null)
   const heading = useRef<HTMLHeadingElement>(null)
   const resultHeading = useRef<HTMLHeadingElement>(null)
   const key = ['chest', userId, chestId]
@@ -40,6 +43,7 @@ export default function ChestScreen({ userId, chestId }: { userId: number; chest
       client.setQueryData(key, result)
       client.setQueryData(['inventory', userId], result.economy)
       setAnimating(true)
+      audioEngine.effect('chest')
       setPending(null)
       for (const prefix of ['chests', 'campaign', 'collection']) {
         void client.invalidateQueries({ queryKey: [prefix, userId] })

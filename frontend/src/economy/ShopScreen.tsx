@@ -6,6 +6,7 @@ import { useEconomy } from './useEconomy'
 import type { CatalogItem, Economy, HintKind } from './types'
 import shared from '../Account.module.css'
 import styles from './Shop.module.css'
+import { useUpdateGuard } from '../pwa/activity'
 
 export default function ShopScreen({ userId }: { userId: number }) {
   const client = useQueryClient()
@@ -15,6 +16,7 @@ export default function ShopScreen({ userId }: { userId: number }) {
   const [pending, setPending] = useState<{ item: HintKind; operation_id: string } | null>(null)
   const [message, setMessage] = useState('')
   const lock = useRef(false)
+  useUpdateGuard(busy || pending !== null)
 
   async function purchase(item: HintKind) {
     if (lock.current) return

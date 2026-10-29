@@ -1,5 +1,6 @@
 {
   "path": "ost.mp3",
+  "distribution_path": "frontend/public/audio/ost.mp3",
   "title": "ost (filename supplied by project owner)",
   "author": null,
   "source": "File supplied by project owner on 2026-10-27",
@@ -9,5 +10,16 @@
   "modifications": "None; source MP3 preserved byte for byte",
   "loop": true,
   "autoplay": false,
-  "listening_and_seam_review": "Not performed; Puzzling review waived by user"
+  "listening_and_seam_review": "Listening deferred by project owner on 2026-10-29; musical seamlessness not confirmed",
+  "technical_review": {
+    "date": "2026-10-29",
+    "method": "Chrome OfflineAudioContext decode and browser playback; original file unchanged",
+    "duration_seconds": 124.44,
+    "channels": 2,
+    "sample_rate": 44100,
+    "peak": 0.7469,
+    "rms": 0.1490,
+    "loop_playback_verified": true,
+    "autoplay_blocked_before_interaction": true
+  }
 }

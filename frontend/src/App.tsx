@@ -14,6 +14,10 @@ import CollectionScreen from './collection/CollectionScreen'
 import ChestList from './collection/ChestList'
 import ChestScreen from './collection/ChestScreen'
 import LeaderboardsScreen from './leaderboards/LeaderboardsScreen'
+import { useAudio } from './audio/useAudio'
+import { usePwa } from './pwa/usePwa'
+import UpdateNotice from './pwa/UpdateNotice'
+import ConnectionNotice from './pwa/ConnectionNotice'
 
 type Health = { status: 'ok'; database: 'ready'; version: string }
 type State = { status: 'loading' | 'error' } | { status: 'ready'; health: Health }
@@ -29,6 +33,8 @@ export default function App() {
   const [state, setState] = useState<State>({ status: 'loading' })
   const [attempt, setAttempt] = useState(0)
   const identity = useAccount()
+  const audio = useAudio(identity.account?.user.id)
+  const pwa = usePwa()
   const [settingsOpen, setSettingsOpen] = useState(false)
   const settingsButton = useRef<HTMLButtonElement>(null)
   const location = useLocation()
@@ -38,6 +44,11 @@ export default function App() {
   const playing = mode === '4' || mode === '5' || mode === '6' || mode === 'campaign'
   const economy = useEconomy(identity.account?.user.id)
   const campaign = useCampaign(identity.account?.user.id)
+  useEffect(() => {
+    const restored = () => setAttempt((value) => value + 1)
+    window.addEventListener('word-guess-connected', restored)
+    return () => window.removeEventListener('word-guess-connected', restored)
+  }, [])
 
   useEffect(() => {
     if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView()
@@ -82,9 +93,11 @@ export default function App() {
             onClick={() => setSettingsOpen((open) => !open)}>Настройки</button>
         </nav>
       </header>
+      <ConnectionNotice reconnect={identity.reload} />
+      <UpdateNotice state={pwa} />
       <main>
         {settingsOpen ? <SettingsPanel account={identity.account} theme={identity.theme}
-          saveTheme={identity.saveTheme} logout={identity.logout} close={closeSettings} />
+          saveTheme={identity.saveTheme} logout={identity.logout} close={closeSettings} audio={audio} pwa={pwa} />
           : location.pathname === '/shop' && identity.account ? <ShopScreen userId={identity.account.user.id} />
           : location.pathname === '/leaderboards' && identity.account ? <LeaderboardsScreen key={identity.account.user.id}
             userId={identity.account.user.id} />

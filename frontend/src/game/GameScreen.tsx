@@ -11,6 +11,8 @@ import shared from '../Account.module.css'
 import styles from './Game.module.css'
 import { useCollection } from '../collection/useCollection'
 import skinStyles from '../collection/skins.module.css'
+import { audioEngine } from '../audio/engine'
+import { marks } from './types'
 
 type Props = { userId: number; mode: Mode; refreshAccount: () => Promise<void> }
 
@@ -52,13 +54,18 @@ export default function GameScreen({ userId, mode, refreshAccount }: Props) {
     if (!newRow) return
     setRevealRow(game.guesses.length - 1)
     setRevealing(true)
+    audioEngine.effect('reveal')
     const duration = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : game.length * 85 + 260
-    const timer = window.setTimeout(() => { setRevealing(false); setRevealRow(null) }, duration)
+    const timer = window.setTimeout(() => {
+      setRevealing(false); setRevealRow(null)
+      if (game.status === 'won') audioEngine.effect('win')
+    }, duration)
     return () => window.clearTimeout(timer)
   }, [game])
 
   function press(key: string) {
     if (locked || !game) return
+    audioEngine.effect('click')
     setNotice('')
     if (key === 'Enter') {
       if (draft.length !== game.length || draft.includes(' ')) setNotice(`Нужно ${game.length} букв.`)
@@ -121,6 +128,10 @@ export default function GameScreen({ userId, mode, refreshAccount }: Props) {
           (_, index) => value[index] || game.hints.revealed[String(index)] || ' ').join(''))}>Подставить открытые буквы</button>
       </div>}
       <GameBoard game={game} draft={draft} revealRow={revealRow} />
+      <p className="srOnly" role="status" aria-live="polite" aria-atomic="true">{game.guesses.length > 0 && (() => {
+        const last = game.guesses[game.guesses.length - 1]
+        return `Попытка ${last.number}: ${last.word.toUpperCase()}. ${last.marks.map((mark, index) => `${last.word[index]} — ${marks[mark].label}`).join('; ')}.`
+      })()}</p>
       <div className={styles.legend} aria-label="Обозначения клеток">
         <span>● На месте</span><span>↔ В другом месте</span><span>× Нет совпадения</span>
       </div>

@@ -1,6 +1,6 @@
 // Real Chrome checks without a browser-driver dependency. Uses a temporary DB.
 import { spawn } from 'node:child_process'
-import { readFile, mkdir, writeFile } from 'node:fs/promises'
+import { cp, readFile, mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import net from 'node:net'
 import assert from 'node:assert/strict'
@@ -44,13 +44,17 @@ async function waitFor(predicate, description) {
 }
 
 try {
+  const pwaTest = process.argv.includes('--pwa')
+  const testFrontend = path.join(directory, 'dist')
+  if (pwaTest) await cp(path.join(root, 'frontend/dist'), testFrontend, { recursive: true })
   const env = { ...process.env, DATABASE_URL: `sqlite:///${path.join(directory, 'test.db').replaceAll('\\', '/')}`,
-    COOKIE_SECURE: 'false', AUTH_ALLOWED_ORIGINS: '[]' }
+    COOKIE_SECURE: 'false', AUTH_ALLOWED_ORIGINS: '[]', ...(pwaTest ? { TEST_FRONTEND_DIST: testFrontend } : {}) }
   const bootstrap = start(python, ['-m', 'backend.app.bootstrap'], { env })
   assert.equal(await new Promise((resolve) => bootstrap.on('close', resolve)), 0, bootstrap.log)
   console.log('Temporary SQLite migrated and seeded')
   const port = await freePort()
-  const server = start(python, ['-m', 'uvicorn', 'backend.app.main:app', '--host', '127.0.0.1', '--port', String(port)], { env })
+  const application = pwaTest ? ['pwa_server:create_test_app', '--factory', '--app-dir', path.join(root, 'tests')] : ['backend.app.main:app']
+  const server = start(python, ['-m', 'uvicorn', ...application, '--host', '127.0.0.1', '--port', String(port)], { env })
   await waitFor(async () => {
     try { return (await fetch(`http://127.0.0.1:${port}/api/health`)).ok } catch { return false }
   }, 'API startup')
@@ -98,13 +102,13 @@ try {
     pending.set(id, { resolve, reject, timer })
     socket.send(JSON.stringify({ id, method, params }))
   })
-  const evaluate = async (expression) => {
-    const response = await send('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true })
+  const evaluate = async (expression, userGesture = false) => {
+    const response = await send('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true, userGesture })
     if (response.exceptionDetails) throw new Error(JSON.stringify(response.exceptionDetails))
     return response.result.value
   }
   const text = (value) => waitFor(() => evaluate(`document.body?.innerText.includes(${JSON.stringify(value)})`), value)
-  const click = (value) => evaluate(`Array.from(document.querySelectorAll('button')).find(b => b.textContent === ${JSON.stringify(value)}).click()`)
+  const click = (value) => evaluate(`Array.from(document.querySelectorAll('button')).find(b => b.textContent === ${JSON.stringify(value)}).click()`, true)
   const fill = (name, value) => evaluate(`(() => {
     const input = document.querySelector('input[name="${name}"]');
     Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(input, ${JSON.stringify(value)});
@@ -159,11 +163,19 @@ engine.dispose()`
     await promisify(execFile)(python, [path.join(root, 'tests/leaderboard_fixtures.py'), path.join(directory, 'test.db')],
       { windowsHide: true })
   }
+  const updateBuild = async (suffix) => {
+    const worker = path.join(testFrontend, 'sw.js')
+    const source = await readFile(worker, 'utf8')
+    await writeFile(worker, source.replace(/word-guess-shell-[^']+/, `word-guess-shell-test-${suffix}`))
+  }
   await send('Page.enable')
   await send('Network.enable')
   await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1100, deviceScaleFactor: 1, mobile: false })
   await send('Page.navigate', { url })
-  if (process.argv.includes('--leaderboards')) {
+  if (pwaTest || process.argv.includes('--audio')) {
+    const { platformScenario } = await import('./platform_scenario.mjs')
+    await platformScenario({ evaluate, send, text, click, fill, setAnswer, updateBuild, directory, url, waitFor, pwaTest })
+  } else if (process.argv.includes('--leaderboards')) {
     const { leaderboardsScenario } = await import('./leaderboards_scenario.mjs')
     await leaderboardsScenario({ evaluate, send, text, click, fill, setAnswer, prepareLeaderboards, directory, url, waitFor })
   } else if (process.argv.includes('--chests')) {
@@ -244,7 +256,7 @@ engine.dispose()`
   await text('Создать аккаунт')
   }
   assert(server.exitCode === null, server.log)
-  const scenario = process.argv.includes('--leaderboards') ? 'leaderboards'
+  const scenario = pwaTest ? 'PWA/audio' : process.argv.includes('--audio') ? 'audio' : process.argv.includes('--leaderboards') ? 'leaderboards'
     : process.argv.includes('--chests') ? 'chests' : process.argv.includes('--campaign') ? 'campaign'
     : process.argv.includes('--economy') ? 'economy' : process.argv.includes('--games') ? 'games' : 'account'
   console.log(`PASS ${process.argv.includes('--dev') ? 'Vite proxy' : 'production'}: ${scenario} scenario`)

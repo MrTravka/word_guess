@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { api, ApiError } from '../api'
 import type { Game, Mode } from './types'
 import type { HintKind } from '../economy/types'
+import { useUpdateGuard } from '../pwa/activity'
 
 type Operation = { path: string; body: Record<string, unknown> }
 
@@ -18,6 +19,7 @@ export function useGame(userId: number, mode: Mode) {
     queryKey: key, queryFn: () => api<Game | null>(`/games?mode=${mode}`),
     retry: false, enabled: !busy, refetchOnWindowFocus: !busy, gcTime: 0,
   })
+  useUpdateGuard(busy || pending !== null || query.isPending || query.data?.status === 'active')
 
   async function send(operation: Operation) {
     if (lock.current) return false

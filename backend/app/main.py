@@ -23,6 +23,8 @@ from .hints import router as hints_router
 from .campaign import router as campaign_router
 from .chests import router as chests_router
 from .statistics import router as statistics_router
+from .audio_settings import router as audio_router
+from .public_assets import register_public_assets
 
 
 def readiness(engine: Engine, revision_head: str) -> bool:
@@ -80,6 +82,8 @@ def create_app(settings: Settings | None = None, frontend_dist: Path = FRONTEND_
             return JSONResponse({"detail": "Некорректный запрос сундука или коллекции."}, status_code=422)
         if request.url.path.startswith(("/api/leaderboards", "/api/profile/stats")):
             return JSONResponse({"detail": "Выберите режим 4/5/6 или кампанию и положительный номер страницы."}, status_code=422)
+        if request.url.path.startswith("/api/settings/audio"):
+            return JSONResponse({"detail": "Проверьте переключатели звука и громкость от 0 до 100."}, status_code=422)
         return JSONResponse({"detail": "Проверьте данные: логин 3–32 буквы/цифры/_, пароль 8–128 символов, имя 1–40 символов; тема — системная, светлая или тёмная."}, status_code=422)
 
     app.include_router(accounts_router)
@@ -89,6 +93,7 @@ def create_app(settings: Settings | None = None, frontend_dist: Path = FRONTEND_
     app.include_router(campaign_router)
     app.include_router(chests_router)
     app.include_router(statistics_router)
+    app.include_router(audio_router)
 
     @app.get("/api/health")
     def health():
@@ -102,6 +107,7 @@ def create_app(settings: Settings | None = None, frontend_dist: Path = FRONTEND_
     assets = frontend_dist / "assets"
     if assets.is_dir():
         app.mount("/assets", StaticFiles(directory=assets), name="assets")
+    register_public_assets(app, frontend_dist)
 
     @app.get("/{path:path}", include_in_schema=False)
     def frontend(path: str):

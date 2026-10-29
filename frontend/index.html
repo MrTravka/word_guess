@@ -2,14 +2,21 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#15803d" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#166534" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="word_guess" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" type="image/png" href="/icons/icon-192.png" />
+    <link rel="apple-touch-icon" href="/icons/icon-180.png" />
     <meta name="description" content="word_guess — русские слова, четыре режима и неограниченное число партий." />
     <title>word_guess — слово за словом</title>
     <script>
       try {
         var theme = localStorage.getItem('word_guess_theme');
         if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+        document.querySelector('meta[name="theme-color"]').content =
+          theme === 'dark' || (theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches) ? '#101713' : '#166534';
       } catch (_) {}
     </script>
   </head>

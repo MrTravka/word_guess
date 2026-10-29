@@ -2,7 +2,7 @@
 
 from datetime import datetime, timezone
 
-from sqlalchemy import Boolean, CheckConstraint, DateTime, ForeignKey, String
+from sqlalchemy import Boolean, CheckConstraint, DateTime, ForeignKey, String, text
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -61,7 +61,15 @@ class AccountSession(Base):
 
 class UserSettings(Base):
     __tablename__ = "user_settings"
-    __table_args__ = (CheckConstraint("theme IN ('system', 'light', 'dark')", name="settings_theme"),)
+    __table_args__ = (
+        CheckConstraint("theme IN ('system', 'light', 'dark')", name="settings_theme"),
+        CheckConstraint("music_volume BETWEEN 0 AND 100", name="settings_music_volume"),
+        CheckConstraint("sounds_volume BETWEEN 0 AND 100", name="settings_sounds_volume"),
+    )
 
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
     theme: Mapped[str] = mapped_column(String(6), default="system")
+    music_enabled: Mapped[bool] = mapped_column(Boolean, default=False, server_default=text("0"))
+    sounds_enabled: Mapped[bool] = mapped_column(Boolean, default=False, server_default=text("0"))
+    music_volume: Mapped[int] = mapped_column(default=25, server_default=text("25"))
+    sounds_volume: Mapped[int] = mapped_column(default=35, server_default=text("35"))

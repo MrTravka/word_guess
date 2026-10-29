@@ -2,6 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import type { Account, Theme } from './api'
 import styles from './Account.module.css'
+import AudioSettings from './audio/AudioSettings'
+import type { useAudio } from './audio/useAudio'
+import type { usePwa } from './pwa/usePwa'
+import InstallSettings from './pwa/InstallSettings'
 
 type Props = {
   account: Account | null
@@ -9,9 +13,11 @@ type Props = {
   saveTheme: (theme: Theme) => Promise<void>
   logout: () => Promise<void>
   close: () => void
+  audio: ReturnType<typeof useAudio>
+  pwa: ReturnType<typeof usePwa>
 }
 
-export default function SettingsPanel({ account, theme, saveTheme, logout, close }: Props) {
+export default function SettingsPanel({ account, theme, saveTheme, logout, close, audio, pwa }: Props) {
   const heading = useRef<HTMLHeadingElement>(null)
   const [busy, setBusy] = useState(false)
   const [message, setMessage] = useState('')
@@ -59,6 +65,8 @@ export default function SettingsPanel({ account, theme, saveTheme, logout, close
       {account ? ' Ваш выбор доступен и при входе с другого устройства.' : ' Войдите, чтобы сохранить выбор в аккаунте.'}</p>
     <p role="status" className={styles.help}>{busy ? 'Сохраняем…' : message}</p>
     {error && <p role="alert" className={styles.error}>{error}</p>}
+    <AudioSettings state={audio} signedIn={Boolean(account)} />
+    <InstallSettings state={pwa} />
     {account && <button className={styles.secondary} disabled={busy} onClick={() => { void leave() }}>Выйти из аккаунта</button>}
   </section>
 }
