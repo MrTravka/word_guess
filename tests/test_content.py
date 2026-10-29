@@ -61,6 +61,13 @@ class PreparedContentTests(unittest.TestCase):
         for length in (4, 5, 6):
             self.assertGreaterEqual(counts[length]["answers"], 1000)
 
+    def test_campaign_has_reviewed_hard_words_for_each_length(self):
+        for length in (4, 5, 6):
+            hard = [row for row in self.rows if row["length"] == str(length)
+                    and row["enabled_as_answer"] == "1" and row["difficulty"] == "3"]
+            self.assertGreater(len(hard), 0)
+            self.assertTrue(all(self.reviews[row["canonical_word"]]["familiarity"] == "challenging" for row in hard))
+
     def test_normalized_duplicate_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "Duplicate"):
             validate_rows([self.rows[0], self.rows[0]], self.reviews)

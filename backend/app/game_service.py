@@ -14,6 +14,18 @@ from .models import Word
 from .economy_models import GameReward
 from .economy_service import record_result, wallet_state
 from .hint_logic import hint_state
+from .campaign_models import CampaignHistory
+from .campaign_service import game_campaign_result, prepare_campaign
+
+
+def mode_condition(mode: str):
+    return Game.campaign_level.is_not(None) if mode == "campaign" else (
+        (Game.mode == mode) & Game.campaign_level.is_(None)
+    )
+
+
+def game_mode(game) -> str:
+    return "campaign" if game["campaign_level"] is not None else game["mode"]
 
 
 def owned_game(connection, game_id: str, user_id: int):
@@ -28,7 +40,7 @@ def public_game(connection, game) -> dict:
         Guess.game_id == game["id"],
     ).order_by(Guess.number)).mappings()]
     result = {
-        "id": game["id"], "mode": game["mode"], "length": MODES[game["mode"]],
+        "id": game["id"], "mode": game_mode(game), "length": len(game["answer"]),
         "status": game["status"], "version": game["version"], "rules_version": game["rules_version"],
         "max_attempts": MAX_ATTEMPTS, "guesses": guesses, "keyboard": keyboard_status(guesses),
     }
@@ -42,6 +54,7 @@ def public_game(connection, game) -> dict:
             result["keyboard"][use["letter"]] = "correct"
     saved = connection.execute(select(GameReward.points, GameReward.coins, GameReward.hints).where(GameReward.game_id == game["id"])).mappings().first()
     result["reward"] = dict(saved) if saved else None
+    result["campaign"] = game_campaign_result(connection, game)
     if game["status"] != "active":
         result["answer"] = {"word": game["display_answer"], "definition": definition_for(game["answer"])}
     return result
@@ -52,28 +65,37 @@ def create_game(connection, user_id: int, mode: str, operation_key: str) -> dict
         GameStart.user_id == user_id, GameStart.operation_key == operation_key,
     )).mappings().first()
     if previous_request:
-        if previous_request["mode"] != mode:
+        if game_mode(previous_request) != mode:
             raise HTTPException(409, "Этот ключ уже использован для другого режима.")
         return public_game(connection, previous_request)
     active = connection.execute(select(Game).where(
-        Game.user_id == user_id, Game.mode == mode, Game.status == "active",
+        Game.user_id == user_id, mode_condition(mode), Game.status == "active",
     )).mappings().first()
     if active:
         connection.execute(insert(GameStart).values(user_id=user_id, operation_key=operation_key, game_id=active["id"]))
         return public_game(connection, active)
-    words = connection.execute(select(Word.id, Word.canonical_word, Word.display_word).where(
-        Word.length == MODES[mode], Word.enabled_as_answer.is_(True),
-    )).mappings().all()
-    if not words:
-        raise HTTPException(503, "Словарь временно недоступен. Попробуйте позднее.")
-    word = secrets.choice(words)
+    level, cycle = None, None
+    if mode == "campaign":
+        level, word, cycle = prepare_campaign(connection, user_id)
+    else:
+        words = connection.execute(select(Word.id, Word.canonical_word, Word.display_word).where(
+            Word.length == MODES[mode], Word.enabled_as_answer.is_(True),
+        )).mappings().all()
+        if not words:
+            raise HTTPException(503, "Словарь временно недоступен. Попробуйте позднее.")
+        word = secrets.choice(words)
     game_id = str(uuid4())
     connection.execute(insert(Game).values(
-        id=game_id, user_id=user_id, mode=mode, word_id=word["id"],
+        id=game_id, user_id=user_id, mode=str(len(word["canonical_word"])),
+        campaign_level=level, word_id=word["id"],
         answer=word["canonical_word"], display_answer=word["display_word"],
         rules_version=RULES_VERSION, status="active", version=0,
         created_at=time.time_ns(), finished_at=None,
     ))
+    if level is not None:
+        connection.execute(insert(CampaignHistory).values(
+            user_id=user_id, level=level, cycle=cycle, word_id=word["id"], game_id=game_id,
+        ))
     connection.execute(insert(GameStart).values(user_id=user_id, operation_key=operation_key, game_id=game_id))
     return public_game(connection, owned_game(connection, game_id, user_id))
 

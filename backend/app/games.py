@@ -9,14 +9,14 @@ from sqlalchemy import select
 
 from .accounts import Identity
 from .game_models import Game
-from .game_service import create_game, mutate_game, owned_game, public_game
+from .game_service import create_game, mode_condition, mutate_game, owned_game, public_game
 
 router = APIRouter(prefix="/api/games")
 
 
 class NewGame(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    mode: Literal["4", "5", "6"]
+    mode: Literal["4", "5", "6", "campaign"]
     operation_id: UUID
 
 
@@ -31,9 +31,9 @@ class WordAttempt(Action):
 
 
 @router.get("")
-def latest_game(request: Request, user: Identity, mode: Literal["4", "5", "6"]):
+def latest_game(request: Request, user: Identity, mode: Literal["4", "5", "6", "campaign"]):
     with request.app.state.engine.connect() as connection:
-        game = connection.execute(select(Game).where(Game.user_id == user["id"], Game.mode == mode).order_by(
+        game = connection.execute(select(Game).where(Game.user_id == user["id"], mode_condition(mode)).order_by(
             Game.created_at.desc(), Game.id.desc(),
         ).limit(1)).mappings().first()
         return public_game(connection, game) if game else None

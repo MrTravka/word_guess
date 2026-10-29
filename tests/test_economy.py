@@ -36,7 +36,7 @@ def test_reward_is_floored_and_hints_only_reduce_points(length, attempt, hints, 
 
 
 def test_starter_is_atomic_and_never_repeated_by_login_or_seed(client, app):
-    expected = {"coins": 150, "inventory": {"random_letter": 1, "position_letter": 0, "eliminate": 0}, "points": {"4": 0, "5": 0, "6": 0}}
+    expected = {"coins": 150, "inventory": {"random_letter": 1, "position_letter": 0, "eliminate": 0}, "points": {"4": 0, "5": 0, "6": 0, "campaign": 0}}
     assert snapshot(client) == expected
     seed_economy(app.state.engine)
     seed_economy(app.state.engine)
@@ -108,7 +108,7 @@ def test_win_awards_once_and_modes_do_not_mix(client, app):
     assert won["reward"] == {"points": 150, "coins": 37, "hints": 0}
     assert won["economy"]["coins"] == 187
     assert attempt(client, game, "касса", key).json() == won
-    assert snapshot(client)["points"] == {"4": 0, "5": 150, "6": 0}
+    assert snapshot(client)["points"] == {"4": 0, "5": 150, "6": 0, "campaign": 0}
     game4 = start(client, "4")
     lost = surrender(client, game4).json()
     assert lost["reward"] == {"points": 0, "coins": 0, "hints": 0}

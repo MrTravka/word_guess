@@ -12,13 +12,19 @@ class Game(Base):
         CheckConstraint("mode IN ('4', '5', '6')", name="game_mode"),
         CheckConstraint("status IN ('active', 'won', 'lost', 'surrendered')", name="game_status"),
         CheckConstraint("version >= 0", name="game_version"),
-        Index("one_active_game", "user_id", "mode", unique=True, sqlite_where=text("status = 'active'")),
+        Index("one_active_game", "user_id", "mode", unique=True,
+              sqlite_where=text("status = 'active' AND campaign_level IS NULL")),
+        Index("one_active_campaign", "user_id", unique=True,
+              sqlite_where=text("status = 'active' AND campaign_level IS NOT NULL")),
+        CheckConstraint("campaign_level IS NULL OR campaign_level > 0", name="game_campaign_level"),
         Index("games_user_mode_created", "user_id", "mode", "created_at"),
     )
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     mode: Mapped[str] = mapped_column(String(1))
+    # mode retains the physical word length; this discriminator identifies campaign games.
+    campaign_level: Mapped[int | None]
     word_id: Mapped[int] = mapped_column(ForeignKey("words.id"))
     answer: Mapped[str] = mapped_column(String(6))
     display_answer: Mapped[str] = mapped_column(String(6))

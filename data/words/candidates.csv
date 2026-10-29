@@ -275,7 +275,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 анус,анус,4,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",34
 анчар,анчар,5,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",34
 анчоус,анчоус,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,anim,masc sing,nomn | NOUN,inan,masc sing,nomn",34 52
-аншлаг,аншлаг,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",19
+аншлаг,аншлаг,6,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",19
 аншлюс,аншлюс,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",34
 аншпуг,аншпуг,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",19
 аонида,аонида,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,anim,femn sing,nomn",53
@@ -542,7 +542,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 барк,барк,4,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",19
 барка,барка,5,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,femn sing,nomn",8
 баркан,баркан,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",34
-баркас,баркас,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
+баркас,баркас,6,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 бармен,бармен,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,masc sing,nomn",52
 барн,барн,4,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,inan,masc sing,nomn",34
 барон,барон,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,masc sing,nomn",52
@@ -654,7 +654,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 бемоль,бемоль,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",92
 бензил,бензил,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",34
 бензин,бензин,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",161
-бензол,бензол,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
+бензол,бензол,6,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 бениец,бениец,6,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,anim,masc sing,nomn",89
 бентли,бентли,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc,Fixd sing,nomn",173
 бентос,бентос,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",34
@@ -690,7 +690,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 бибабо,бибабо,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,anim,masc,Fixd sing,nomn | NOUN,inan,masc,Fixd sing,nomn",173 182
 библия,библия,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",41
 бибоп,бибоп,5,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",34
-бивак,бивак,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",19
+бивак,бивак,5,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",19
 бивень,бивень,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",315
 бивуак,бивуак,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",19
 бигмак,бигмак,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",19
@@ -946,7 +946,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 брод,брод,4,1,common,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 брокат,брокат,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",34
 брокер,брокер,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,anim,masc sing,nomn",52
-бром,бром,4,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",161
+бром,бром,4,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",161
 бромат,бромат,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",34
 бромид,бромид,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",34
 бронза,бронза,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",55
@@ -1014,7 +1014,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 буксир,буксир,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 буксус,буксус,6,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,inan,masc sing,nomn",34
 булава,булава,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,femn sing,nomn",55
-булат,булат,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
+булат,булат,5,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 булга,булга,5,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,femn,Sgtm sing,nomn",111
 булгар,булгар,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,masc sing,nomn",38
 булинь,булинь,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",92
@@ -1200,7 +1200,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 вежда,вежда,5,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,inan,femn sing,nomn",55
 вейка,вейка,5,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,anim,masc sing,nomn",697
 веко,веко,4,1,common,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,neut sing,nomn",583
-вектор,вектор,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
+вектор,вектор,6,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 векша,векша,5,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,anim,femn sing,nomn",170
 велд,велд,4,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,inan,masc sing,nomn",34
 велень,велень,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,femn sing,nomn",13
@@ -1264,7 +1264,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 ветряк,ветряк,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",19
 веха,веха,4,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",44
 вехист,вехист,6,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,anim,masc sing,nomn",52
-вече,вече,4,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,neut sing,nomn",739
+вече,вече,4,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,neut sing,nomn",739
 вечер,вечер,5,1,common,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",147
 вечеря,вечеря,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,femn sing,nomn",353
 вешка,вешка,5,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,femn sing,nomn",9
@@ -1440,7 +1440,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 воск,воск,4,1,common,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",347
 восток,восток,6,1,common,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",19
 восход,восход,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
-вотум,вотум,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
+вотум,вотум,5,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 вотчим,вотчим,6,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,anim,masc sing,nomn",52
 вотяк,вотяк,5,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,anim,masc sing,nomn",2
 вошка,вошка,5,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,anim,femn sing,nomn",134
@@ -1950,7 +1950,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 графа,графа,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",55
 график,график,6,1,common,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,masc sing,nomn | NOUN,inan,masc sing,nomn",2 19
 графин,графин,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
-графит,графит,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
+графит,графит,6,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 грация,грация,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,femn sing,nomn | NOUN,inan,femn sing,nomn",41 186
 грач,грач,4,1,common,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,masc sing,nomn",242
 гребец,гребец,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,masc sing,nomn",538
@@ -1993,7 +1993,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 гроздь,гроздь,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",1274
 гром,гром,4,1,common,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",1276
 гросс,гросс,5,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",34
-грот,грот,4,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
+грот,грот,4,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 грохот,грохот,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",161
 грош,грош,4,1,common,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",136
 грошик,грошик,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",19
@@ -2053,7 +2053,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 гуммит,гуммит,6,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,inan,masc sing,nomn",34
 гуммоз,гуммоз,6,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,inan,masc sing,nomn",34
 гумно,гумно,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,neut sing,nomn",1294
-гумус,гумус,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
+гумус,гумус,5,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 гунн,гунн,4,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,masc sing,nomn",52
 гунтер,гунтер,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,anim,masc sing,nomn",52
 гунька,гунька,6,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,inan,femn sing,nomn",131
@@ -2477,7 +2477,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 дрожь,дрожь,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",454
 дрозд,дрозд,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,masc sing,nomn",52
 дроид,дроид,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,masc sing,nomn",52
-дрок,дрок,4,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",19
+дрок,дрок,4,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",19
 дром,дром,4,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,anim,masc sing,nomn",52
 дрон,дрон,4,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 дронт,дронт,5,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,anim,masc sing,nomn",52
@@ -2664,7 +2664,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 жасмин,жасмин,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",161
 жатва,жатва,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",55
 жатка,жатка,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",8
-жбан,жбан,4,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
+жбан,жбан,4,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 жвало,жвало,5,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,neut,Sgtm sing,nomn",110
 жвачка,жвачка,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",9
 жгут,жгут,4,1,common,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
@@ -2959,7 +2959,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 зернь,зернь,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",13
 зеро,зеро,4,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,neut,Fixd sing,nomn",23
 зефир,зефир,5,1,common,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",161
-зигзаг,зигзаг,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",19
+зигзаг,зигзаг,6,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",19
 зигота,зигота,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",55
 зилот,зилот,5,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,anim,masc sing,nomn",52
 зима,зима,4,1,common,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",55
@@ -3062,7 +3062,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 иглу,иглу,4,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,neut,Fixd sing,nomn",23
 иголка,иголка,6,1,common,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",8
 игра,игра,4,1,common,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",55
-игрек,игрек,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",19
+игрек,игрек,5,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",19
 игрец,игрец,5,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,anim,masc sing,nomn",52
 игрище,игрище,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,neut sing,nomn",257
 игрок,игрок,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,masc sing,nomn",2
@@ -3294,7 +3294,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 казнь,казнь,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",13
 казу,казу,4,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,inan,masc,Fixd sing,nomn",173
 казуар,казуар,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,masc sing,nomn",52
-казус,казус,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
+казус,казус,5,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 каик,каик,4,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,inan,masc sing,nomn",19
 каин,каин,4,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,anim,masc sing,nomn",52
 каинит,каинит,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",34
@@ -3524,7 +3524,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 квакер,квакер,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,masc sing,nomn",52
 квакша,квакша,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,femn sing,nomn",170
 квант,квант,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",335
-кварк,кварк,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",19
+кварк,кварк,5,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",19
 кварта,кварта,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",55
 кварц,кварц,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",72
 квас,квас,4,1,common,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",1170
@@ -3538,7 +3538,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 квит,квит,4,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",34
 квиток,квиток,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",141
 кворум,кворум,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
-квота,квота,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",55
+квота,квота,5,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",55
 квочка,квочка,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,femn sing,nomn",134
 кебаб,кебаб,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 кебмен,кебмен,6,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,anim,masc sing,nomn",52
@@ -3617,7 +3617,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 килоом,килоом,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 килт,килт,4,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 килти,килти,5,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,inan,femn,Sgtm,Fixd sing,nomn",309
-киль,киль,4,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",92
+киль,киль,4,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",92
 килька,килька,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,femn sing,nomn | NOUN,inan,femn sing,nomn",131 324
 кимвал,кимвал,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 кимвр,кимвр,5,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,anim,masc sing,nomn",52
@@ -3705,7 +3705,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 клеть,клеть,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",571
 клефт,клефт,5,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,anim,masc sing,nomn",52
 клецка,клёцка,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",1784
-клеш,клёш,4,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",80
+клеш,клёш,4,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",80
 клешня,клешня,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",386
 клещ,клещ,4,1,common,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,masc sing,nomn",242
 клещик,клещик,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,masc sing,nomn",2
@@ -3872,7 +3872,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 колон,колон,5,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,anim,masc sing,nomn",52
 колор,колор,5,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,inan,masc sing,nomn",34
 колос,колос,5,1,common,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",577
-колосс,колосс,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,masc sing,nomn | NOUN,inan,masc sing,nomn",34 52
+колосс,колосс,6,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,masc sing,nomn | NOUN,inan,masc sing,nomn",34 52
 колоша,колоша,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,femn sing,nomn",94
 колпак,колпак,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",19
 колтун,колтун,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
@@ -4275,7 +4275,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 курорт,курорт,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 курос,курос,5,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",34
 курс,курс,4,1,common,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
-курсив,курсив,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
+курсив,курсив,6,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 курсор,курсор,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 курта,курта,5,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,femn sing,nomn",55
 куртаг,куртаг,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",19
@@ -4340,7 +4340,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 лагер,лагер,5,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",34
 лагерь,лагерь,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",1918
 лагман,лагман,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
-лагуна,лагуна,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",55
+лагуна,лагуна,6,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",55
 лада,лада,4,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,ms-f sing,nomn",344
 ладан,ладан,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",161
 ладо,ладо,4,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,anim,masc sing,nomn | NOUN,anim,neut sing,nomn",1919 1920
@@ -4360,7 +4360,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 лайнер,лайнер,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 лакей,лакей,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,masc sing,nomn",67
 лакец,лакец,5,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,anim,masc sing,nomn",39
-лакмус,лакмус,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
+лакмус,лакмус,6,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 лактат,лактат,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 лактон,лактон,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 лакуна,лакуна,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",55
@@ -4464,7 +4464,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 лектор,лектор,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,masc sing,nomn",52
 лекция,лекция,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",41
 лемех,лемех,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",147
-лемма,лемма,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",55
+лемма,лемма,5,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",55
 лемур,лемур,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,masc sing,nomn",52
 ленник,ленник,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,anim,masc sing,nomn",2
 ленок,ленок,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,masc sing,nomn | NOUN,inan,masc sing,nomn",266 348
@@ -4545,7 +4545,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 лимец,лимец,5,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,anim,masc sing,nomn",39
 лимит,лимит,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 лимон,лимон,5,1,common,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
-лимфа,лимфа,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",55
+лимфа,лимфа,5,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",55
 линди,линди,5,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,inan,masc,Fixd sing,nomn",173
 линек,линёк,5,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",628
 линза,линза,5,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",55
@@ -7077,7 +7077,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 прижог,прижог,6,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,inan,masc sing,nomn",19
 приз,приз,4,1,common,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",34
 призер,призёр,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,anim,masc sing,nomn",52
-призма,призма,6,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",55
+призма,призма,6,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,femn sing,nomn",55
 призор,призор,6,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,inan,masc sing,nomn",34
 призыв,призыв,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",34
 прииск,прииск,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",19
@@ -7815,7 +7815,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 рундук,рундук,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",19
 рунет,рунет,5,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,inan,masc sing,nomn",34
 рунец,рунец,5,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,anim,masc sing,nomn",538
-руно,руно,4,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,neut sing,nomn",54
+руно,руно,4,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,neut sing,nomn",54
 рупия,рупия,5,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,femn sing,nomn",41
 рупор,рупор,5,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,masc sing,nomn",300
 русак,русак,5,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,anim,masc sing,nomn",2
@@ -8357,7 +8357,7 @@ canonical_word,display_word,length,difficulty,familiarity,source,enabled_as_answ
 скирда,скирда,6,,unreviewed,OpenCorpora:0.92:417150,0,1,guess,"NOUN,inan,femn sing,nomn",55
 скирр,скирр,5,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,inan,masc sing,nomn",34
 скит,скит,4,1,common,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",112
-скиф,скиф,4,2,ordinary,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,masc sing,nomn | NOUN,inan,masc sing,nomn",34 52
+скиф,скиф,4,3,challenging,OpenCorpora:0.92:417150,1,1,answer,"NOUN,anim,masc sing,nomn | NOUN,inan,masc sing,nomn",34 52
 скифка,скифка,6,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,anim,femn sing,nomn",40
 скифл,скифл,5,,unreviewed,OpenCorpora:0.92:417150,0,0,pending,"NOUN,inan,masc sing,nomn",34
 склад,склад,5,1,common,OpenCorpora:0.92:417150,1,1,answer,"NOUN,inan,masc sing,nomn",112

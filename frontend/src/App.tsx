@@ -8,6 +8,8 @@ import { Link, useLocation, useMatch } from 'react-router-dom'
 import GameScreen from './game/GameScreen'
 import { useEconomy } from './economy/useEconomy'
 import ShopScreen from './economy/ShopScreen'
+import CampaignScreen from './campaign/CampaignScreen'
+import { useCampaign } from './campaign/useCampaign'
 
 type Health = { status: 'ok'; database: 'ready'; version: string }
 type State = { status: 'loading' | 'error' } | { status: 'ready'; health: Health }
@@ -16,7 +18,7 @@ const modes = [
   { title: '4 буквы', description: 'Короткое слово. Большое начало.', number: '04', path: '/play/4' },
   { title: '5 букв', description: 'Знакомая длина, новые открытия.', number: '05', path: '/play/5' },
   { title: '6 букв', description: 'Чуть больше места для догадки.', number: '06', path: '/play/6' },
-  { title: 'Кампания', description: 'Слово за словом, уровень за уровнем.', number: '∞', path: null },
+  { title: 'Кампания', description: 'Слово за словом, уровень за уровнем.', number: '∞', path: '/campaign' },
 ]
 
 export default function App() {
@@ -28,8 +30,9 @@ export default function App() {
   const location = useLocation()
   const match = useMatch('/play/:mode')
   const mode = match?.params.mode
-  const playing = mode === '4' || mode === '5' || mode === '6'
+  const playing = mode === '4' || mode === '5' || mode === '6' || mode === 'campaign'
   const economy = useEconomy(identity.account?.user.id)
+  const campaign = useCampaign(identity.account?.user.id)
 
   useEffect(() => {
     if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView()
@@ -78,6 +81,8 @@ export default function App() {
         {settingsOpen ? <SettingsPanel account={identity.account} theme={identity.theme}
           saveTheme={identity.saveTheme} logout={identity.logout} close={closeSettings} />
           : location.pathname === '/shop' && identity.account ? <ShopScreen userId={identity.account.user.id} />
+          : location.pathname === '/campaign' && identity.account ? <CampaignScreen key={identity.account.user.id}
+            userId={identity.account.user.id} />
           : playing && identity.account ? <GameScreen key={`${identity.account.user.id}-${mode}`}
             userId={identity.account.user.id} mode={mode} refreshAccount={identity.reload} /> : <>
         <section className={styles.hero} aria-labelledby="heading">
@@ -87,6 +92,7 @@ export default function App() {
             <p className={styles.intro}>{identity.account
               ? `${identity.account.user.display_name}, рады видеть вас. Ваш аккаунт готов к новым открытиям.`
               : 'Немного любопытства, знакомые буквы и радость верной догадки. Здесь начнётся ваша история слов.'}</p>
+            {identity.account && campaign.data && <p className={styles.intro}>Кампания · уровень {campaign.data.current_level}</p>}
             {identity.account ? <Link className={accountStyles.primary} to="/#modes-heading">Играть</Link>
               : identity.ready && <a className={accountStyles.primary} href="#account">Войти или создать аккаунт</a>}
           </div>
@@ -113,9 +119,8 @@ export default function App() {
             {modes.map((mode) => <article className={styles.card} key={mode.title}>
               <span className={styles.modeNumber} aria-hidden="true">{mode.number}</span>
               <h3>{mode.title}</h3><p>{mode.description}</p>
-              {mode.path ? <Link className={accountStyles.primary} to={identity.account ? mode.path : '/#account'}
+              <Link className={accountStyles.primary} to={identity.account ? mode.path : '/#account'}
                 aria-label={`Открыть режим «${mode.title}»`}>Открыть</Link>
-                : <p className={accountStyles.help}>Скоро</p>}
             </article>)}
           </div>
         </section>

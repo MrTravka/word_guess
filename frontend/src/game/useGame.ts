@@ -30,6 +30,7 @@ export function useGame(userId: number, mode: Mode) {
       const game = await api<Game>(operation.path, 'POST', operation.body)
       client.setQueryData(key, game)
       client.setQueryData(['inventory', userId], game.economy)
+      void client.invalidateQueries({ queryKey: ['campaign', userId] })
       setPending(null)
       return true
     } catch (cause) {

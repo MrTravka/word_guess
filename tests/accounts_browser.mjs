@@ -127,7 +127,10 @@ c.close()`
   await send('Network.enable')
   await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1100, deviceScaleFactor: 1, mobile: false })
   await send('Page.navigate', { url })
-  if (process.argv.includes('--economy')) {
+  if (process.argv.includes('--campaign')) {
+    const { campaignScenario } = await import('./campaign_scenario.mjs')
+    await campaignScenario({ evaluate, send, text, click, fill, setAnswer, directory, url, waitFor })
+  } else if (process.argv.includes('--economy')) {
     const { economyScenario } = await import('./economy_scenario.mjs')
     await economyScenario({ evaluate, send, text, click, fill, setAnswer, directory, url, waitFor })
   } else if (process.argv.includes('--games')) {
@@ -199,7 +202,8 @@ c.close()`
   await text('Создать аккаунт')
   }
   assert(server.exitCode === null, server.log)
-  const scenario = process.argv.includes('--economy') ? 'economy' : process.argv.includes('--games') ? 'games' : 'account'
+  const scenario = process.argv.includes('--campaign') ? 'campaign'
+    : process.argv.includes('--economy') ? 'economy' : process.argv.includes('--games') ? 'games' : 'account'
   console.log(`PASS ${process.argv.includes('--dev') ? 'Vite proxy' : 'production'}: ${scenario} scenario`)
   console.log(`Screenshots: ${directory}`)
 } catch (error) {

@@ -1,0 +1,52 @@
+.campaign {
+  max-width: 680px;
+  margin: 32px auto 48px;
+  line-height: 1.6;
+}
+.heading, .chapters {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.heading h1 { margin: 0; }
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+}
+.summary strong { color: var(--accent); }
+.summary p { margin: 0; color: var(--muted); font-size: 14px; }
+.rules { margin: 22px 0; color: var(--muted); }
+.rules summary { cursor: pointer; color: var(--accent); }
+.chapters { margin-top: 28px; }
+.chapters h2 { font-size: 18px; white-space: nowrap; }
+.map { position: relative; width: 320px; max-width: 100%; margin: 24px auto; }
+.trail { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.trail path { fill: none; stroke: var(--line); stroke-width: 7; stroke-linecap: round; }
+.levels { position: relative; padding: 0; margin: 0; list-style: none; }
+.levels li { width: 150px; height: 104px; margin: auto; display: grid; place-items: center; }
+.current, .completed, .locked {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 144px;
+  min-height: 82px;
+  border: 2px solid var(--line);
+  border-radius: 24px;
+  background: var(--surface);
+  font-size: 13px;
+}
+.levels strong { font-size: 22px; line-height: 1.2; }
+.levels small { font-size: 11px; }
+.current { border: 3px solid var(--accent); background: var(--soft); color: var(--accent); }
+.current:hover { box-shadow: 0 0 0 5px var(--soft); }
+.completed { color: var(--accent); }
+.locked { color: var(--muted); }
+.bottom { text-align: center; }

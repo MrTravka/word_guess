@@ -1,6 +1,6 @@
 import type { Economy, HintKind } from '../economy/types'
 
-export type Mode = '4' | '5' | '6'
+export type Mode = '4' | '5' | '6' | 'campaign'
 export type Mark = 'correct' | 'present' | 'absent'
 export type Guess = { number: number; word: string; marks: Mark[] }
 export type Game = {
@@ -15,6 +15,7 @@ export type Game = {
   keyboard: Partial<Record<string, Mark>>
   economy: Economy
   reward: { points: number; coins: number; hints: number } | null
+  campaign: { level: number; current_level: number; stars: number | null; chest_id: string | null } | null
   hints: {
     uses: { kind: HintKind; position: number | null; letter: string | null; removed: string[] }[]
     revealed: Record<string, string>

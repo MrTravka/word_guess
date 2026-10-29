@@ -1,13 +1,14 @@
 """Atomic account grants, purchases and saved rewards. Caller owns the transaction."""
 
 from fastapi import HTTPException
-from sqlalchemy import func, insert, select, update
+from sqlalchemy import case, func, insert, select, update
 from sqlalchemy.dialects.sqlite import insert as sqlite_insert
 
 from .economy_models import GameReward, HintUse, Inventory, Wallet, WalletTransaction
 from .economy_rules import CATALOG, START_COINS, START_HINT, reward
 from .game_models import Game, Guess
 from .models import User
+from .campaign_service import complete_campaign
 
 
 def initialize_account(connection, user_id: int) -> None:
@@ -31,10 +32,11 @@ def wallet_state(connection, user_id: int) -> dict:
     if coins is None:
         raise HTTPException(503, "Баланс ещё не подготовлен. Требуется запуск bootstrap.")
     inventory = dict(connection.execute(select(Inventory.kind, Inventory.quantity).where(Inventory.user_id == user_id)).all())
-    points = {mode: 0 for mode in ("4", "5", "6")}
-    points.update(dict(connection.execute(select(Game.mode, func.sum(GameReward.points)).join(
+    points = {mode: 0 for mode in ("4", "5", "6", "campaign")}
+    mode = case((Game.campaign_level.is_not(None), "campaign"), else_=Game.mode)
+    points.update(dict(connection.execute(select(mode, func.sum(GameReward.points)).join(
         GameReward, GameReward.game_id == Game.id,
-    ).where(Game.user_id == user_id).group_by(Game.mode)).all()))
+    ).where(Game.user_id == user_id).group_by(mode)).all()))
     return {"coins": coins, "inventory": inventory, "points": points}
 
 
@@ -68,6 +70,7 @@ def record_result(connection, game) -> None:
     attempts = connection.execute(select(func.count()).select_from(Guess).where(Guess.game_id == game["id"])).scalar_one()
     result = reward(int(game["mode"]), attempts, hints) if game["status"] == "won" else {"points": 0, "coins": 0}
     connection.execute(insert(GameReward).values(game_id=game["id"], hints=hints, **result))
+    complete_campaign(connection, game, attempts, hints)
     if result["coins"]:
         connection.execute(update(Wallet).where(Wallet.user_id == game["user_id"]).values(coins=Wallet.coins + result["coins"]))
         connection.execute(insert(WalletTransaction).values(

@@ -102,7 +102,8 @@
       "approved_shortfall": 0,
       "difficulty": {
         "1": 724,
-        "2": 395
+        "2": 386,
+        "3": 9
       }
     },
     "5": {
@@ -117,7 +118,8 @@
       "approved_shortfall": 0,
       "difficulty": {
         "1": 189,
-        "2": 913
+        "2": 903,
+        "3": 10
       }
     },
     "6": {
@@ -132,13 +134,14 @@
       "approved_shortfall": 0,
       "difficulty": {
         "1": 135,
-        "2": 1367
+        "2": 1356,
+        "3": 11
       }
     }
   },
   "all_targets_met": true,
   "sha256": {
-    "candidates.csv": "f4b20e6045c79e33897a0143ce556c309e4b7457fd2117e2a4c63b0f04f1b5f4",
-    "reviews.json": "345656931978858870f64d1002809e2ddd29bd07c08616adfa4dec493ff5c04b"
+    "candidates.csv": "eb2f4b513f581837684b55a5fdd803c7f26aa7894badd28172a84ade63e4e286",
+    "reviews.json": "442eece022946e0f4ba40c03e44a2150f875a12c86300f45550f6d8ffdd17b38"
   }
 }

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import type { Game } from './types'
 import shared from '../Account.module.css'
 import styles from './Game.module.css'
@@ -21,6 +22,12 @@ export default function GameResult({ game, busy, start }: { game: Game; busy: bo
     <p className={styles.source}>Использовано попыток: {game.guesses.length} из {game.max_attempts}.</p>
     {game.reward && <p className={styles.earned}>Награда: <strong>{game.reward.points} очков</strong> и <strong>{game.reward.coins} монет</strong>.
       {' '}Использовано подсказок: {game.reward.hints}.</p>}
-    <button className={shared.primary} disabled={busy} onClick={start}>Следующее слово</button>
+    {game.campaign && <>
+      {game.campaign.stars && <p aria-label={`Звёзд: ${game.campaign.stars}`}>{'★'.repeat(game.campaign.stars)}</p>}
+      {game.campaign.chest_id && <p>Сундук за уровень {game.campaign.level} сохранён!</p>}
+      <p><Link to="/campaign" className={shared.secondary}>Карта кампании</Link></p>
+    </>}
+    <button className={shared.primary} disabled={busy} onClick={start}>{game.campaign
+      ? game.status === 'won' ? 'Следующий уровень' : 'Попробовать другое слово' : 'Следующее слово'}</button>
   </section>
 }

@@ -89,14 +89,17 @@ export default function GameScreen({ userId, mode, refreshAccount }: Props) {
 
   return <section className={styles.game} aria-labelledby="game-heading">
     <div className={styles.top}>
-      <Link to="/#modes-heading" className={shared.secondary}>Режимы</Link>
-      <h1 id="game-heading" ref={heading} tabIndex={-1}>{mode} {mode === '4' ? 'буквы' : 'букв'}</h1>
+      <Link to={mode === 'campaign' ? '/campaign' : '/#modes-heading'} className={shared.secondary}>
+        {mode === 'campaign' ? 'Карта' : 'Режимы'}</Link>
+      <h1 id="game-heading" ref={heading} tabIndex={-1}>{mode === 'campaign'
+        ? `Уровень ${game?.campaign?.level ?? '…'}` : `${mode} ${mode === '4' ? 'буквы' : 'букв'}`}</h1>
       <button className={shared.secondary} disabled={busy || revealing} onClick={() => { void state.retry() }}>Обновить</button>
     </div>
     {state.loading && <p role="status">Восстанавливаем партию…</p>}
     {state.error && <p role="alert" className={shared.error}>{state.error.message}</p>}
     {!state.loading && !state.error && game === null && <div className={styles.start}>
-      <p>У вас {mode} {mode === '4' ? 'буквы' : 'букв'} и шесть попыток. Можно играть без ограничений.</p>
+      <p>{mode === 'campaign' ? 'Начните путь по карте. Победа открывает следующий уровень.'
+        : `У вас ${mode} ${mode === '4' ? 'буквы' : 'букв'} и шесть попыток. Можно играть без ограничений.`}</p>
       <button className={shared.primary} disabled={busy || pending} onClick={() => { void state.start() }}>Начать партию</button>
     </div>}
     <p className={styles.message} role="status" aria-live="polite">
