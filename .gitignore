@@ -4,6 +4,7 @@ __pycache__/
 node_modules/
 .env
 data/runtime/
+backups/
 data/sources/
 .pytest_cache/
 .cache/

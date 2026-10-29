@@ -6,9 +6,12 @@ import net from 'node:net'
 import assert from 'node:assert/strict'
 import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
+import { randomUUID } from 'node:crypto'
+import { createProtocol } from './chrome_protocol.mjs'
 
 const root = path.resolve(import.meta.dirname, '..')
-const directory = path.join(root, '.cache', `accounts-browser-${Date.now()}`)
+// Keep Chromium's nested CacheStorage paths below Windows legacy path limits.
+const directory = path.join(root, '.cache', `accounts-browser-${Date.now()}-${randomUUID().slice(0, 8)}`)
 await mkdir(directory, { recursive: true })
 const python = path.join(root, '.venv', 'Scripts', 'python.exe')
 const profile = path.join(directory, 'chrome')
@@ -85,23 +88,7 @@ try {
   const pages = await (await fetch(`http://127.0.0.1:${debugPort}/json/list`)).json()
   socket = new WebSocket(pages.find((page) => page.type === 'page').webSocketDebuggerUrl)
   await new Promise((resolve, reject) => { socket.onopen = resolve; socket.onerror = reject })
-  const pending = new Map()
-  let nextId = 0
-  socket.onmessage = ({ data }) => {
-    const message = JSON.parse(data)
-    const entry = pending.get(message.id)
-    if (!entry) return
-    pending.delete(message.id)
-    clearTimeout(entry.timer)
-    if (message.error) entry.reject(new Error(JSON.stringify(message.error)))
-    else entry.resolve(message.result)
-  }
-  send = (method, params = {}) => new Promise((resolve, reject) => {
-    const id = ++nextId
-    const timer = setTimeout(() => { pending.delete(id); reject(new Error(`CDP timeout: ${method}`)) }, 10000)
-    pending.set(id, { resolve, reject, timer })
-    socket.send(JSON.stringify({ id, method, params }))
-  })
+  send = createProtocol(socket, waitFor)
   const evaluate = async (expression, userGesture = false) => {
     const response = await send('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true, userGesture })
     if (response.exceptionDetails) throw new Error(JSON.stringify(response.exceptionDetails))
@@ -168,11 +155,18 @@ engine.dispose()`
     const source = await readFile(worker, 'utf8')
     await writeFile(worker, source.replace(/word-guess-shell-[^']+/, `word-guess-shell-test-${suffix}`))
   }
+  const restoreDatabase = async () => {
+    const { restoreBrowserDatabase } = await import('./browser_restore.mjs')
+    return restoreBrowserDatabase({ python, directory, env, start, freePort, waitFor })
+  }
   await send('Page.enable')
   await send('Network.enable')
   await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1100, deviceScaleFactor: 1, mobile: false })
   await send('Page.navigate', { url })
-  if (pwaTest || process.argv.includes('--audio')) {
+  if (process.argv.includes('--acceptance')) {
+    const { acceptanceScenario } = await import('./acceptance_scenario.mjs')
+    await acceptanceScenario({ evaluate, send, text, click, fill, setAnswer, restoreDatabase, directory, url, waitFor })
+  } else if (pwaTest || process.argv.includes('--audio')) {
     const { platformScenario } = await import('./platform_scenario.mjs')
     await platformScenario({ evaluate, send, text, click, fill, setAnswer, updateBuild, directory, url, waitFor, pwaTest })
   } else if (process.argv.includes('--leaderboards')) {
@@ -256,7 +250,8 @@ engine.dispose()`
   await text('Создать аккаунт')
   }
   assert(server.exitCode === null, server.log)
-  const scenario = pwaTest ? 'PWA/audio' : process.argv.includes('--audio') ? 'audio' : process.argv.includes('--leaderboards') ? 'leaderboards'
+  const scenario = process.argv.includes('--acceptance') ? 'acceptance' : pwaTest ? 'PWA/audio'
+    : process.argv.includes('--audio') ? 'audio' : process.argv.includes('--leaderboards') ? 'leaderboards'
     : process.argv.includes('--chests') ? 'chests' : process.argv.includes('--campaign') ? 'campaign'
     : process.argv.includes('--economy') ? 'economy' : process.argv.includes('--games') ? 'games' : 'account'
   console.log(`PASS ${process.argv.includes('--dev') ? 'Vite proxy' : 'production'}: ${scenario} scenario`)
@@ -266,6 +261,10 @@ engine.dispose()`
     try {
       const result = await send('Runtime.evaluate', { expression: 'document.body.innerText', returnByValue: true })
       console.error(result.result.value)
+      const worker = await send('Runtime.evaluate', { returnByValue: true, awaitPromise: true,
+        expression: `navigator.serviceWorker?.getRegistration().then(r=>JSON.stringify({secure:isSecureContext,controlled:!!navigator.serviceWorker.controller,
+          active:r?.active?.state,waiting:r?.waiting?.state,installing:r?.installing?.state}))` })
+      console.error('Worker state:', worker.result.value)
     } catch { /* Preserve the original failure. */ }
   }
   throw error

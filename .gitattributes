@@ -2,5 +2,6 @@
 data/words/*.csv text eol=lf
 data/words/*.json text eol=lf
 data/audio/*.json text eol=lf
+data/balance/*.json text eol=lf
 data/licenses/*.txt -text
 *.mp3 binary

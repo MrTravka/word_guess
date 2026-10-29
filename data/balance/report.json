@@ -1,0 +1,73 @@
+{
+  "version": "0.9.0",
+  "seed": 20261029,
+  "chest_samples": 100000,
+  "assumptions": {
+    "attempt_distribution_on_wins_percent": [
+      2,
+      13,
+      30,
+      30,
+      18,
+      7
+    ],
+    "campaign_length_window": "101..10100",
+    "chests_opened_per_wins": "1/10",
+    "note": "Scenario assumptions, not observed human performance. Losses pay zero; hints do not reduce coins."
+  },
+  "chests": {
+    "expected_base_coins": 84.0,
+    "observed_base_coins": 84.5067,
+    "observed_coins_with_duplicate_compensation": 88.2132,
+    "expected_coins_when_all_skins_owned": 87.5,
+    "counts": {
+      "150 монет": 12076,
+      "70 монет": 30032,
+      "40 монет": 49832,
+      "250 монет": 5935,
+      "Косметический скин": 1065,
+      "1000 монет": 1060
+    },
+    "rarity_counts": {
+      "rare": 18011,
+      "common": 79864,
+      "very_rare": 2125
+    },
+    "unique_skins": 6,
+    "duplicates": 1059,
+    "expected_chests_for_all_six_skins": 1470.0,
+    "expected_campaign_wins_for_all_six_skins": 14700.0
+  },
+  "coins_per_win": {
+    "4": 16.5,
+    "5": 20.25,
+    "6": 24.5
+  },
+  "campaign": {
+    "length_counts": {
+      "4": 2000,
+      "5": 3500,
+      "6": 4500
+    },
+    "coins_per_win_without_chests": 21.4125,
+    "coins_per_win_with_chests": 29.8125
+  },
+  "wins_to_buy_hint": {
+    "random_letter": {
+      "price": 60,
+      "free_play_equal_lengths": 2.94,
+      "campaign_with_chests": 2.01
+    },
+    "position_letter": {
+      "price": 100,
+      "free_play_equal_lengths": 4.9,
+      "campaign_with_chests": 3.35
+    },
+    "eliminate": {
+      "price": 25,
+      "free_play_equal_lengths": 1.22,
+      "campaign_with_chests": 0.84
+    }
+  },
+  "conclusion": "Keep planned prices/rewards. Letter hints fit roughly 2–5 campaign wins; eliminate is intentionally cheaper. Human calibration remains pending."
+}

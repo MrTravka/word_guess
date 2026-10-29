@@ -5,6 +5,7 @@
 **/node_modules
 frontend/dist
 data/runtime
+backups
 data/sources
 **/__pycache__
 .pytest_cache

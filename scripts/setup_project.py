@@ -78,7 +78,7 @@ def prepare(dev=False):
 
     if not dev:
         files = [frontend / name for name in ("package.json", "package-lock.json", "index.html", "tsconfig.json", "vite.config.ts")]
-        for directory in (frontend / "src", frontend / "public"):
+        for directory in (frontend / "src", frontend / "public", frontend / "build"):
             if directory.is_dir():
                 files.extend(path for path in directory.rglob("*") if path.is_file())
         if (ROOT / ".env").is_file():
