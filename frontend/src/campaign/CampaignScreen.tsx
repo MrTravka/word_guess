@@ -21,7 +21,7 @@ export default function CampaignScreen({ userId }: { userId: number }) {
   return <section className={styles.campaign} aria-labelledby="campaign-heading">
     <div className={styles.heading}>
       <h1 id="campaign-heading" tabIndex={-1} ref={heading}>Кампания</h1>
-      <Link className={shared.secondary} to="/#modes-heading">Режимы</Link>
+      <Link className={shared.secondary} to="/modes">Режимы</Link>
     </div>
     <p>Шесть попыток на слово. Победа открывает следующий уровень, поражение даёт новое слово на том же уровне.</p>
     {query.isPending && <p role="status">Загружаем карту…</p>}

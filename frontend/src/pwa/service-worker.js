@@ -3,7 +3,7 @@ const CACHE = 'word-guess-shell-__CACHE_ID__'
 const SHELL = __SHELL_FILES__
 const FILES = new Set(SHELL)
 const isPage = (path) => path === '/' || /^\/play\/(4|5|6|campaign)\/?$/.test(path)
-  || /^\/(shop|campaign|collection|leaderboards|chests)\/?$/.test(path)
+  || /^\/(modes|shop|campaign|collection|leaderboards|chests)\/?$/.test(path)
   || /^\/chests\/[a-f0-9-]{36}\/?$/.test(path)
 
 self.addEventListener('install', (event) => {

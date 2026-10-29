@@ -30,7 +30,7 @@ export async function campaignScenario({ evaluate, send, text, click, fill, setA
   await fill('login', 'campaign_browser')
   await fill('password', 'browser-password-123')
   await click('Создать аккаунт')
-  await text('Путешественник, рады видеть вас.')
+  await text('Играть')
   await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: 'light' }] })
   await navigate('/campaign')
   await text('Текущий уровень: 1')

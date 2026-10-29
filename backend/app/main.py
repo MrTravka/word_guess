@@ -51,7 +51,7 @@ def create_app(settings: Settings | None = None, frontend_dist: Path = FRONTEND_
         finally:
             engine.dispose()
 
-    app = FastAPI(title="word_guess", version=VERSION, lifespan=lifespan)
+    app = FastAPI(title="Словоход", version=VERSION, lifespan=lifespan)
     app.state.engine = engine
     app.state.settings = settings
     app.state.auth_limiter = AuthLimiter()

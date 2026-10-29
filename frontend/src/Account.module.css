@@ -87,6 +87,7 @@
   opacity: 1;
 }
 .primary, .secondary {
+  transition: transform 120ms ease-out, box-shadow 120ms ease-out;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -96,6 +97,16 @@
   font-size: 14px;
   font-weight: 600;
   border: 1px solid var(--line);
+}
+@media (hover: hover) {
+  .primary:not(:disabled):hover, .secondary:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 14px rgb(0 0 0 / .12);
+  }
+}
+.primary:not(:disabled):active, .secondary:not(:disabled):active {
+  transform: scale(.97);
+  box-shadow: none;
 }
 .primary {
   margin-top: 16px;

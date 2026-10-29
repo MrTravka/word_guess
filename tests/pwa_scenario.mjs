@@ -2,11 +2,13 @@ import assert from 'node:assert/strict'
 
 export async function pwaScenario({ evaluate, send, text, click, updateBuild, url, waitFor, game, api }) {
   await waitFor(() => evaluate(`Boolean(navigator.serviceWorker.controller)`), 'service worker controls the app')
+  assert.equal(await evaluate(`document.body.innerText.includes('Доступна новая версия.')`), false)
   const manifest = await send('Page.getAppManifest')
   assert.equal(manifest.errors.length, 0)
   const installability = await send('Page.getInstallabilityErrors')
   assert.deepEqual(installability.installabilityErrors, [])
   assert.equal(JSON.parse(manifest.data).display, 'standalone')
+  assert.equal(JSON.parse(manifest.data).short_name, 'Словоход')
   async function cacheFiles() {
     return evaluate(`(async()=>{const keys=await caches.keys();return (await Promise.all(keys.map(async key=>(await (await caches.open(key)).keys()).map(r=>new URL(r.url).pathname)))).flat()})()`)
   }
@@ -42,8 +44,8 @@ export async function pwaScenario({ evaluate, send, text, click, updateBuild, ur
   await evaluate(`navigator.serviceWorker.getRegistration().then(r=>r.update())`)
   await text('Доступна новая версия.')
   assert(await evaluate(`Array.from(document.querySelectorAll('button')).find(b=>b.textContent==='Обновить приложение').disabled`))
-  await evaluate(`document.querySelector('a[href="/#modes-heading"]').click()`)
-  await text('Четыре пути к ответу')
+  await evaluate(`document.querySelector('a[href="/modes"]').click()`)
+  await text('Выберите режим')
   await waitFor(() => evaluate(`!Array.from(document.querySelectorAll('button')).find(b=>b.textContent==='Обновить приложение').disabled`), 'update enabled outside the game')
   await click('Настройки')
   await text('Музыка и звуки')
@@ -65,7 +67,7 @@ export async function pwaScenario({ evaluate, send, text, click, updateBuild, ur
   await text('Закройте другие окна игры')
   await evaluate('window.otherWindow.close()')
   await click('Обновить приложение')
-  await text('Слушатель, рады видеть вас.')
+  await text('Выберите режим')
   await waitFor(() => evaluate(`caches.keys().then(keys=>keys.includes('word-guess-shell-test-2'))`), 'new cache active')
   assert.equal(await evaluate(`document.body.innerText.includes('Доступна новая версия.')`), false)
   assert((await cacheFiles()).every(file => !file.startsWith('/api/')))

@@ -100,7 +100,7 @@ export default function GameScreen({ userId, mode, refreshAccount }: Props) {
   return <section className={`${styles.game} ${skinStyles.surface}`} data-skin={collection.data?.selected_skin ?? ''}
     aria-labelledby="game-heading">
     <div className={styles.top}>
-      <Link to={mode === 'campaign' ? '/campaign' : '/#modes-heading'} className={shared.secondary}>
+      <Link to={mode === 'campaign' ? '/campaign' : '/modes'} className={shared.secondary}>
         {mode === 'campaign' ? 'Карта' : 'Режимы'}</Link>
       <h1 id="game-heading" ref={heading} tabIndex={-1}>{mode === 'campaign'
         ? `Уровень ${game?.campaign?.level ?? '…'}` : `${mode} ${mode === '4' ? 'буквы' : 'букв'}`}</h1>

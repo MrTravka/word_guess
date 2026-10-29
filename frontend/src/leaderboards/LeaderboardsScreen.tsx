@@ -29,7 +29,7 @@ export default function LeaderboardsScreen({ userId }: { userId: number }) {
 
   return <section className={styles.screen} aria-labelledby="leaderboards-heading">
     <div className={styles.heading}><h1 id="leaderboards-heading" tabIndex={-1} ref={heading}>Рейтинг</h1>
-      <Link className={shared.secondary} to="/#modes-heading">Играть</Link></div>
+      <Link className={shared.secondary} to="/modes">Играть</Link></div>
     <p>За всё время, отдельно для каждого режима. В таблице — игроки с победами.</p>
     <nav className={styles.modes} aria-label="Режим рейтинга">
       {modes.map((item) => <button key={item.id} className={shared.secondary} aria-pressed={mode === item.id}

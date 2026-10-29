@@ -23,7 +23,7 @@ export async function leaderboardsScenario({ evaluate, send, text, click, fill, 
   await fill('login', 'leaderboards_browser')
   await fill('password', 'browser-password-123')
   await click('Создать аккаунт')
-  await text('Исследователь, рады видеть вас.')
+  await text('Играть')
   await evaluate(`document.querySelector('a[href="/leaderboards"]').click()`)
   await text('Ваше место: пока нет')
   await text('Пока нет побед в этом режиме.')

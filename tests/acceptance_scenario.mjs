@@ -21,7 +21,7 @@ export async function acceptanceScenario({ evaluate, send, text, click, fill, se
   await fill('login', 'acceptance_browser')
   await fill('password', 'browser-password-123')
   await click('Создать аккаунт')
-  await text('Приёмка, рады видеть вас.')
+  await text('Играть')
   await navigate('/play/4')
   await text('Начать партию')
   await click('Начать партию')

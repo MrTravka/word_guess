@@ -51,6 +51,7 @@
   font-size: 11px;
 }
 .hero {
+  animation: appear 240ms ease-out;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
@@ -79,7 +80,6 @@
   font-size: 15px;
   margin: 0;
 }
-.homeActions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
 .tiles {
   display: flex;
   justify-content: center;
@@ -118,7 +118,7 @@
   align-items: center;
   margin-bottom: 22px;
 }
-.sectionTitle h2 {
+.sectionTitle h1 {
   margin: 0;
   font-size: 20px;
   letter-spacing: -.5px;
@@ -133,6 +133,11 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 15px;
 }
+.modes { padding: 40px 0; animation: appear 220ms ease-out; }
+@keyframes appear {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 .card {
   background: var(--surface);
   border: 1px solid var(--line);
@@ -144,7 +149,7 @@
   font-weight: 400;
   color: var(--accent);
 }
-.card h3 {
+.card h2 {
   margin: 25px 0 9px;
   font-size: 18px;
   font-weight: 650;
@@ -257,7 +262,7 @@
     width: 48px;
     font-size: 25px;
   }
-  .sectionTitle h2 {
+  .sectionTitle h1 {
     font-size: 17px;
   }
   .card {

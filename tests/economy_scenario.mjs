@@ -31,7 +31,7 @@ export async function economyScenario({ evaluate, send, text, click, fill, setAn
   await fill('login', 'economy_browser')
   await fill('password', 'browser-password-123')
   await click('Создать аккаунт')
-  await text('Игрок, рады видеть вас.')
+  await text('Играть')
   assert.equal((await inventory()).coins, 150)
   assert.equal((await inventory()).inventory.random_letter, 1)
   await navigate('/shop')

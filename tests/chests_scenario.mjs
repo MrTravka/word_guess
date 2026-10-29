@@ -25,7 +25,7 @@ export async function chestScenario({ evaluate, send, text, click, fill, setAnsw
   await fill('login', 'chests_browser')
   await fill('password', 'browser-password-123')
   await click('Создать аккаунт')
-  await text('Коллекционер, рады видеть вас.')
+  await text('Играть')
   const ids = await prepareChests()
   let expectedCoins = (await api('/inventory')).coins
   await media('light')

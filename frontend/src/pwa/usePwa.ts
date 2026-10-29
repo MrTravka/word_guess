@@ -21,12 +21,15 @@ export function usePwa() {
     let active = true
     let registration: ServiceWorkerRegistration | undefined
     const inspect = () => {
-      if (active && registration?.waiting) setWaiting(registration.waiting)
+      if (active) setWaiting(registration?.waiting ?? null)
       registration?.installing?.addEventListener('statechange', () => {
-        if (active && registration?.waiting) setWaiting(registration.waiting)
+        if (active) setWaiting(registration?.waiting ?? null)
       })
     }
-    const changed = () => { if (applying.current) window.location.reload() }
+    const changed = () => {
+      if (applying.current) window.location.reload()
+      else inspect()
+    }
     const message = (event: MessageEvent) => {
       if (event.data?.type === 'UPDATE_BLOCKED') {
         applying.current = false

@@ -34,7 +34,7 @@ export async function gameScenario({ evaluate, send, text, click, fill, setAnswe
   await fill('login', 'game_browser')
   await fill('password', 'browser-password-123')
   await click('Создать аккаунт')
-  await text('Игрок, рады видеть вас.')
+  await text('Играть')
   await openMode('5')
   const game = await latest()
   assert(!('answer' in game))
